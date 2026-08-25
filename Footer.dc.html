@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>*{margin:0;padding:0;box-sizing:border-box}a{text-decoration:none;color:inherit}</style>
+</helmet>
+<footer style="background:#141414;color:#FAFAF7;font-family:Inter,sans-serif;">
+  <div style="max-width:1200px;margin:0 auto;padding:clamp(48px,6vw,72px) clamp(20px,4vw,40px) 40px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;padding-bottom:40px;border-bottom:1px solid #333;">
+      <div style="max-width:280px;">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:16px;">
+          <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
+            <line x1="16" y1="6" x2="6" y2="27" stroke="#D6402C" stroke-width="2.2"/>
+            <line x1="16" y1="6" x2="26" y2="27" stroke="#D6402C" stroke-width="2.2"/>
+            <line x1="10.5" y1="17" x2="21.5" y2="17" stroke="#D6402C" stroke-width="2.2"/>
+            <circle cx="16" cy="6" r="3.2" fill="#D6402C"/><circle cx="6" cy="27" r="3.2" fill="#D6402C"/><circle cx="26" cy="27" r="3.2" fill="#D6402C"/>
+          </svg>
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;color:#FAFAF7;">automind</span>
+        </div>
+        <p style="font-size:14px;color:#9A9A92;">CRM, automação e sites sob medida para ecommerce, saúde e serviços no Brasil.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#6A6A62;margin-bottom:4px;">Navegação</span>
+        <a href="Servicos.dc.html" style="font-size:14.5px;color:#C8C8C0;" style-hover="color:#D6402C;">Serviços</a>
+        <a href="Cases.dc.html" style="font-size:14.5px;color:#C8C8C0;" style-hover="color:#D6402C;">Cases</a>
+        <a href="Sobre.dc.html" style="font-size:14.5px;color:#C8C8C0;" style-hover="color:#D6402C;">Sobre</a>
+        <a href="Contato.dc.html" style="font-size:14.5px;color:#C8C8C0;" style-hover="color:#D6402C;">Contato</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#6A6A62;margin-bottom:4px;">Contato</span>
+        <a href="{{ wa }}" target="_blank" rel="noopener" style="font-size:14.5px;color:#C8C8C0;" style-hover="color:#D6402C;">WhatsApp</a>
+        <a href="mailto:contato@automindsolution.com.br" style="font-size:14.5px;color:#C8C8C0;" style-hover="color:#D6402C;">contato@automindsolution.com.br</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#6A6A62;margin-bottom:4px;">Legal</span>
+        <a href="#" style="font-size:14.5px;color:#C8C8C0;" style-hover="color:#D6402C;">Política de Privacidade</a>
+        <a href="#" style="font-size:14.5px;color:#C8C8C0;" style-hover="color:#D6402C;">Termos de Uso</a>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:24px;font-size:13px;color:#6A6A62;">
+      <span>© {{ year }} Automind · CNPJ 58.595.370/0001-07</span>
+      <span>Rio de Janeiro · RJ · Brasil</span>
+    </div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;whatsappNumber&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;5521999789428&quot;, &quot;tsType&quot;: &quot;string&quot;}
+}">
+class Component extends DCLogic {
+  renderVals() {
+    const num = String(this.props.whatsappNumber || '5521999789428').replace(/\D/g, '');
+    const wa = 'https://wa.me/' + num + '?text=' + encodeURIComponent('Olá! Vim pelo site da Automind e quero automatizar meu atendimento.');
+    return { wa, year: new Date().getFullYear() };
+  }
+}
+</script>
+</body>
+</html>

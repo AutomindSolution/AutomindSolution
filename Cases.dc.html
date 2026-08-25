@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:#FAFAF7}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:#D6402C}
+  ::selection{background:#D6402C;color:#FAFAF7}
+</style>
+</helmet>
+<div style="background:#FAFAF7;color:#141414;font-family:Inter,system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;">
+
+  <dc-import name="Header" active="cases" whatsapp-number="{{ waNum }}" hint-size="100%,62px"></dc-import>
+
+  <section style="border-bottom:2px solid #141414;">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(20px,4vw,40px) clamp(44px,5vw,64px);">
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:18px;">
+        <span style="width:28px;height:2px;background:#D6402C;display:block;"></span>
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#D6402C;">Cases</span>
+      </div>
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:clamp(34px,5vw,58px);line-height:1.02;letter-spacing:-.03em;max-width:820px;margin-bottom:20px;">Sites e automações que estamos construindo.</h1>
+      <p style="font-size:clamp(17px,1.7vw,19px);color:#5A5A54;max-width:620px;">Dois projetos em produção agora. Entre em cada um e veja o padrão Automind por dentro.</p>
+    </div>
+  </section>
+
+  <section style="border-bottom:2px solid #141414;">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(48px,6vw,80px) clamp(20px,4vw,40px);display:flex;flex-direction:column;gap:24px;">
+      <sc-for list="{{ projects }}" as="p" hint-placeholder-count="2">
+        <div style="border:2px solid #141414;background:#FAFAF7;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
+          <div style="padding:clamp(30px,3.5vw,48px);border-right:1px solid #E4E1D8;">
+            <span style="display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:11.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;background:#D6402C;color:#FAFAF7;padding:5px 11px;margin-bottom:22px;">Em produção · {{ p.niche }}</span>
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:clamp(26px,3.2vw,38px);letter-spacing:-.025em;margin-bottom:12px;">{{ p.nome }}</h2>
+            <p style="font-size:16px;color:#5A5A54;margin-bottom:28px;max-width:460px;">{{ p.desc }}</p>
+            <a href="{{ p.url }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;background:#D6402C;color:#FAFAF7;font-weight:600;font-size:15.5px;padding:15px 24px;" style-hover="background:#B23520;">Visitar site →</a>
+          </div>
+          <div style="padding:clamp(30px,3.5vw,48px);display:flex;flex-direction:column;justify-content:center;background:#F1EFE8;">
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#8A8A82;margin-bottom:18px;">O que estamos entregando</span>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+              <sc-for list="{{ p.items }}" as="it" hint-placeholder-count="3">
+                <li style="display:flex;gap:12px;font-size:15px;color:#3D3D38;"><span style="color:#D6402C;font-weight:700;flex:0 0 auto;">→</span>{{ it }}</li>
+              </sc-for>
+            </ul>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="background:#D6402C;">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(56px,8vw,104px) clamp(20px,4vw,40px);">
+      <div style="max-width:720px;">
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:clamp(32px,4.6vw,54px);line-height:1.03;letter-spacing:-.03em;color:#FAFAF7;margin-bottom:20px;">O próximo case pode ser o seu.</h2>
+        <p style="font-size:clamp(17px,1.7vw,19px);color:#FAFAF7;opacity:.9;max-width:540px;margin-bottom:34px;">Conta pra gente o seu negócio e a gente mostra o que dá pra automatizar já na primeira conversa.</p>
+        <a href="{{ wa }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:11px;background:#FAFAF7;color:#D6402C;font-weight:600;font-size:17px;padding:18px 30px;" style-hover="background:#141414;color:#FAFAF7;">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.5 15.2L2 22l4.9-1.4A10 10 0 1012 2zm4.4 12c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.1-.2 0-.4.1-.5l.4-.5c.1-.2.1-.3 0-.5L9 6.8c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3a3 3 0 00-.9 2.2c0 1.3 1 2.6 1.1 2.8 0 .2 1.8 2.9 4.5 4 .6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.4-.6 1.6-1.2.2-.6.2-1 .1-1.2 0-.1-.2-.2-.4-.3z"/></svg>
+          Falar com a Automind
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="Footer" whatsapp-number="{{ waNum }}" hint-size="100%,400px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;whatsappNumber&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;5521999789428&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Contato&quot;},
+  &quot;site1Nome&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Projeto 01&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Cases&quot;},
+  &quot;site1Url&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;#&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Cases&quot;},
+  &quot;site2Nome&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Projeto 02&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Cases&quot;},
+  &quot;site2Url&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;#&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Cases&quot;}
+}">
+class Component extends DCLogic {
+  renderVals() {
+    const num = String(this.props.whatsappNumber || '5521999789428').replace(/\D/g, '');
+    const wa = 'https://wa.me/' + num + '?text=' + encodeURIComponent('Olá! Vim pelo site da Automind e quero automatizar meu atendimento.');
+    return {
+      waNum: num, wa,
+      projects: [
+        {
+          niche: 'Ecommerce', nome: this.props.site1Nome || 'Projeto 01', url: this.props.site1Url || '#',
+          desc: 'Site institucional e CRM sob medida, com atendimento automatizado no WhatsApp de ponta a ponta.',
+          items: ['Site e CRM integrados', 'Bot de atendimento no WhatsApp', 'Notificações de pedido e recompra']
+        },
+        {
+          niche: 'Serviços', nome: this.props.site2Nome || 'Projeto 02', url: this.props.site2Url || '#',
+          desc: 'Loja e automações de pós venda, com notificações, follow up e recompra rodando no automático.',
+          items: ['Captação e qualificação de leads', 'Agendamento com Google Calendar', 'Relatórios de conversão']
+        }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

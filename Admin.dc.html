@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#FAFAF7}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:#D6402C}
+  ::selection{background:#D6402C;color:#FAFAF7}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:#D8D5CC}
+  input,select,textarea,button{font-family:inherit;font-size:inherit;color:inherit}
+  input:focus-visible,select:focus-visible,button:focus-visible,textarea:focus-visible{outline:2px solid #D6402C;outline-offset:2px}
+</style>
+</helmet>
+
+<!-- ══ LOGIN ══ -->
+<sc-if value="{{ deslogado }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);min-height:100vh;background:#FAFAF7;color:#141414;font-family:Inter,system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;">
+  <div style="background:#141414;color:#FAFAF7;padding:clamp(32px,4vw,56px);display:flex;flex-direction:column;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="width:24px;height:24px;background:#D6402C;display:block;"></span>
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;letter-spacing:-.01em;">Automind</span>
+    </div>
+    <div style="margin-top:auto;max-width:420px;">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7A7A72;margin-bottom:14px;">Painel interno</div>
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:clamp(30px,3.4vw,42px);line-height:1.04;letter-spacing:-.03em;margin-bottom:16px;">Área restrita da operação.</h1>
+      <p style="font-size:15px;color:#C8C8C0;">Aqui ficam contratos, valores, credenciais e dados de clientes. O acesso é só dos sócios, por conta Google da Automind.</p>
+    </div>
+    <div style="margin-top:auto;padding-top:36px;display:flex;flex-direction:column;gap:9px;border-top:1px solid #2C2C2A;">
+      <sc-for list="{{ seguranca }}" as="s" hint-placeholder-count="4">
+        <div style="display:flex;gap:10px;font-size:12.5px;color:#9A9A92;">
+          <span style="color:#D6402C;font-weight:700;flex:0 0 auto;">→</span><span>{{ s }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="padding:clamp(32px,4vw,56px);display:flex;flex-direction:column;justify-content:center;">
+    <div style="max-width:420px;width:100%;">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#D6402C;margin-bottom:10px;">/admin</div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:26px;letter-spacing:-.025em;margin-bottom:8px;">Entrar no painel</h2>
+      <div style="height:28px;"></div>
+
+      <sc-if value="{{ faseInicio }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <button onClick="{{ abrirContas }}" style="width:100%;display:flex;align-items:center;gap:14px;border:2px solid #141414;background:#FFF;padding:15px 18px;font-size:15px;font-weight:600;cursor:pointer;text-align:left;" style-hover="background:#141414;color:#FAFAF7;">
+            <svg width="20" height="20" viewBox="0 0 24 24" style="flex:0 0 auto;"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 01-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 5.9-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1A12 12 0 0012 24z"/><path fill="#FBBC05" d="M5.4 14.4a7.2 7.2 0 010-4.6V6.7H1.4a12 12 0 000 10.8l4-3.1z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 001.4 6.7l4 3.1C6.3 6.9 8.9 4.8 12 4.8z"/></svg>
+            Entrar com Google
+          </button>
+          <div style="font-size:12.5px;color:#8A8A82;margin-top:14px;">Sessão de 8 horas · 2FA exigido pela conta Google · toda entrada fica no log de auditoria.</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ faseContas }}" hint-placeholder-val="{{ false }}">
+        <div style="border:2px solid #141414;background:#FFF;">
+          <div style="padding:14px 18px;border-bottom:1px solid #E4E1D8;display:flex;align-items:center;gap:10px;">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 01-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 5.9-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1A12 12 0 0012 24z"/><path fill="#FBBC05" d="M5.4 14.4a7.2 7.2 0 010-4.6V6.7H1.4a12 12 0 000 10.8l4-3.1z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 001.4 6.7l4 3.1C6.3 6.9 8.9 4.8 12 4.8z"/></svg>
+            <span style="font-size:13px;color:#5A5A54;">Escolha uma conta para continuar</span>
+          </div>
+          <sc-for list="{{ contas }}" as="c" hint-placeholder-count="3">
+            <button onClick="{{ c.entrar }}" style="width:100%;display:flex;align-items:center;gap:13px;background:transparent;border:none;border-bottom:1px solid #E4E1D8;padding:14px 18px;cursor:pointer;text-align:left;" style-hover="background:#F2F1EC;">
+              <span style="width:32px;height:32px;flex:0 0 auto;background:{{ c.avBg }};color:#FAFAF7;display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;">{{ c.iniciais }}</span>
+              <span style="flex:1;min-width:0;">
+                <span style="display:block;font-size:14px;font-weight:500;">{{ c.nome }}</span>
+                <span style="display:block;font-size:12.5px;color:#8A8A82;">{{ c.email }}</span>
+              </span>
+              <span style="font-size:10.5px;font-family:'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:{{ c.selo }};white-space:nowrap;">{{ c.rotulo }}</span>
+            </button>
+          </sc-for>
+          <button onClick="{{ outraConta }}" style="width:100%;background:transparent;border:none;padding:13px 18px;font-size:13px;color:#8A8A82;cursor:pointer;text-align:left;" style-hover="color:#141414;">Usar outra conta</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ faseEntrando }}" hint-placeholder-val="{{ false }}">
+        <div style="border:2px solid #141414;background:#FFF;padding:22px;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;margin-bottom:10px;">Verificando o domínio…</div>
+          <div style="height:6px;background:#E4E1D8;"><div style="height:6px;background:#D6402C;width:70%;"></div></div>
+          <div style="font-size:12.5px;color:#8A8A82;margin-top:10px;">{{ contaEscolhida }} · conferindo permissão e abrindo sessão.</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ faseNegado }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <div style="border-left:3px solid #D6402C;border-top:2px solid #141414;border-right:2px solid #141414;border-bottom:2px solid #141414;background:#FFF;padding:18px 20px;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;margin-bottom:6px;">Acesso negado</div>
+            <p style="font-size:13.5px;color:#5A5A54;">{{ contaEscolhida }} não está autorizada neste painel. Nenhuma sessão foi criada e a tentativa ficou registrada.</p>
+          </div>
+          <button onClick="{{ voltar }}" style="margin-top:14px;border:2px solid #141414;background:transparent;font-size:13.5px;font-weight:600;padding:11px 16px;cursor:pointer;" style-hover="background:#141414;color:#FAFAF7;">Tentar com outra conta</button>
+        </div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ logado }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;min-height:100vh;background:#FAFAF7;color:#141414;font-family:Inter,system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside style="width:236px;flex:0 0 236px;background:#141414;color:#FAFAF7;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;">
+    <div style="padding:22px 20px 18px;border-bottom:1px solid #2C2C2A;">
+      <div style="display:flex;align-items:center;gap:9px;">
+        <span style="width:22px;height:22px;background:#D6402C;display:block;"></span>
+        <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;letter-spacing:-.01em;">Automind</span>
+      </div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7A7A72;margin-top:9px;">Painel interno · /admin</div>
+    </div>
+    <nav style="flex:1;overflow-y:auto;padding:10px 0;">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="10">
+        <button onClick="{{ n.go }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 20px;background:{{ n.bg }};color:{{ n.fg }};border:none;border-left:3px solid {{ n.bar }};font-size:14px;font-weight:500;text-align:left;cursor:pointer;">
+          <span style="flex:1;">{{ n.label }}</span>
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;color:{{ n.badgeFg }};background:{{ n.badgeBg }};padding:1px 6px;">{{ n.badge }}</span>
+        </button>
+      </sc-for>
+    </nav>
+    <div style="padding:14px 20px;border-top:1px solid #2C2C2A;">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px;">
+        <span style="width:28px;height:28px;flex:0 0 auto;background:#D6402C;display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;">{{ usuario.iniciais }}</span>
+        <div style="min-width:0;flex:1;">
+          <div style="font-size:12.5px;font-weight:500;">{{ usuario.nome }}</div>
+          <div style="font-size:10.5px;color:#7A7A72;overflow:hidden;text-overflow:ellipsis;">{{ usuario.email }}</div>
+        </div>
+      </div>
+      <button onClick="{{ sair }}" style="width:100%;border:1px solid #3A3A38;background:transparent;color:#B8B8B0;font-size:12px;font-weight:500;padding:8px 10px;cursor:pointer;text-align:left;margin-bottom:10px;" style-hover="border-color:#D6402C;color:#FAFAF7;">Sair da conta</button>
+      <div style="font-size:10.5px;color:#6A6A62;line-height:1.5;">Sessão expira em 7h42 · 2FA ativo · toda ação fica no log de auditoria.</div>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <main style="flex:1;min-width:0;display:flex;flex-direction:column;">
+    <header style="border-bottom:2px solid #141414;padding:18px 28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;position:sticky;top:0;background:#FAFAF7;z-index:20;">
+      <div style="flex:1;min-width:220px;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#D6402C;margin-bottom:3px;">{{ pageKicker }}</div>
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:26px;letter-spacing:-.025em;">{{ pageTitle }}</h1>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="display:flex;align-items:center;gap:8px;border:2px solid #E4E1D8;background:#FFF;padding:8px 12px;min-width:230px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A8A82" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input placeholder="Buscar cliente, lead, tarefa…" style="border:none;background:transparent;font-size:13.5px;flex:1;outline:none;">
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:10.5px;color:#8A8A82;border:1px solid #E4E1D8;padding:1px 5px;">⌘K</span>
+        </div>
+        <button onClick="{{ abrirNovo }}" style="display:inline-flex;align-items:center;gap:8px;background:#D6402C;color:#FAFAF7;border:2px solid #D6402C;font-weight:600;font-size:13.5px;padding:9px 16px;cursor:pointer;" style-hover="background:#B23520;border-color:#B23520;">+ Novo registro</button>
+      </div>
+    </header>
+
+    <div style="flex:1;padding:0 0 60px;">
+
+    <!-- ─────────── VISÃO GERAL ─────────── -->
+    <sc-if value="{{ isVisao }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-bottom:2px solid #141414;">
+          <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="5">
+            <div style="padding:22px 24px;border-right:1px solid #E4E1D8;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#8A8A82;margin-bottom:10px;">{{ k.label }}</div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:29px;font-weight:600;letter-spacing:-.03em;line-height:1;">{{ k.valor }}</div>
+              <div style="font-size:12.5px;color:{{ k.deltaCor }};margin-top:7px;">{{ k.delta }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);align-items:start;">
+          <!-- RADAR -->
+          <section style="border-right:2px solid #141414;border-bottom:2px solid #141414;padding:26px 28px;">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:6px;">
+              <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;letter-spacing:-.02em;">Radar de vencimentos</h2>
+              <span style="font-size:12.5px;color:#8A8A82;">próximos {{ janela }} dias</span>
+            </div>
+            <p style="font-size:13.5px;color:#5A5A54;margin-bottom:20px;max-width:520px;">Contrato que renova, dinheiro que entra, custo que sai e cartão que fecha — tudo na mesma linha do tempo, para nada vencer no escuro.</p>
+            <sc-if value="{{ sem.radar }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nada no radar ainda</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Cadastre um contrato, uma cobrança ou o fechamento do cartão e todos os vencimentos passam a aparecer aqui em ordem de data.</div>
+              </div>
+            </sc-if>
+            <div style="border-top:2px solid #141414;">
+              <sc-for list="{{ radar }}" as="r" hint-placeholder-count="7">
+                <div style="display:grid;grid-template-columns:64px 96px 1fr auto;gap:14px;align-items:center;padding:13px 0;border-bottom:1px solid #E4E1D8;">
+                  <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;">{{ r.dia }}</div>
+                  <span style="font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;background:{{ r.tagBg }};color:{{ r.tagFg }};border:1px solid {{ r.tagBd }};padding:3px 7px;text-align:center;">{{ r.tipo }}</span>
+                  <div>
+                    <div style="font-size:14px;font-weight:500;">{{ r.txt }}</div>
+                    <div style="font-size:12.5px;color:#8A8A82;">{{ r.sub }}</div>
+                  </div>
+                  <div style="font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:600;color:{{ r.diasCor }};white-space:nowrap;">{{ r.dias }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+              <button style="border:2px solid #141414;background:transparent;font-size:13px;font-weight:600;padding:9px 14px;cursor:pointer;" style-hover="background:#141414;color:#FAFAF7;">Exportar para o Google Calendar</button>
+              <button style="border:2px solid #E4E1D8;background:#FFF;font-size:13px;font-weight:500;padding:9px 14px;cursor:pointer;" style-hover="border-color:#141414;">Configurar avisos no WhatsApp</button>
+            </div>
+          </section>
+
+          <!-- HOJE -->
+          <section style="border-bottom:2px solid #141414;padding:26px 28px;">
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;letter-spacing:-.02em;margin-bottom:16px;">Hoje</h2>
+            <sc-if value="{{ sem.hoje }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nenhum compromisso hoje</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Tarefas com data e eventos do Google Calendar aparecem nesta coluna.</div>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:2px;">
+              <sc-for list="{{ hoje }}" as="h" hint-placeholder-count="5">
+                <div style="display:flex;gap:12px;align-items:flex-start;border:1px solid #E4E1D8;background:{{ h.bg }};padding:11px 13px;">
+                  <div style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;color:#D6402C;width:44px;flex:0 0 auto;">{{ h.hora }}</div>
+                  <div style="flex:1;min-width:0;">
+                    <div style="font-size:13.5px;font-weight:500;">{{ h.t }}</div>
+                    <div style="font-size:12px;color:#8A8A82;">{{ h.d }}</div>
+                  </div>
+                  <span style="font-size:10.5px;font-family:'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#8A8A82;">{{ h.tipo }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;margin:26px 0 12px;">Alertas do sistema</h3>
+            <sc-if value="{{ sem.alertas }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nenhum alerta</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Erros de automação, domínio a expirar e proposta parada entram aqui automaticamente.</div>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:2px;">
+              <sc-for list="{{ alertas }}" as="a" hint-placeholder-count="3">
+                <div style="display:flex;gap:11px;align-items:flex-start;border-left:3px solid {{ a.cor }};background:#FFF;border-top:1px solid #E4E1D8;border-right:1px solid #E4E1D8;border-bottom:1px solid #E4E1D8;padding:11px 13px;">
+                  <div style="flex:1;">
+                    <div style="font-size:13px;font-weight:500;">{{ a.t }}</div>
+                    <div style="font-size:12px;color:#8A8A82;">{{ a.d }}</div>
+                  </div>
+                  <span style="font-size:11px;color:#8A8A82;white-space:nowrap;">{{ a.quando }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+        </div>
+
+        <!-- SINAIS DO SITE -->
+        <section style="padding:26px 28px;border-bottom:2px solid #141414;">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:18px;">
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;letter-spacing:-.02em;">Sinais do site · últimas 24h</h2>
+            <span style="font-size:12.5px;color:#8A8A82;">coletados pelo automind.js no site público</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));border-top:2px solid #141414;border-left:1px solid #E4E1D8;">
+            <sc-for list="{{ sinais }}" as="s" hint-placeholder-count="6">
+              <div style="padding:18px 20px;border-right:1px solid #E4E1D8;border-bottom:1px solid #E4E1D8;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:600;letter-spacing:-.02em;">{{ s.v }}</div>
+                <div style="font-size:13px;font-weight:500;margin-top:4px;">{{ s.t }}</div>
+                <div style="font-size:11.5px;color:#8A8A82;margin-top:3px;font-family:'Space Grotesk',sans-serif;">evento: {{ s.ev }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- ─────────── LEADS / PIPELINE ─────────── -->
+    <sc-if value="{{ isLeads }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="display:flex;gap:12px;align-items:center;padding:16px 28px;border-bottom:1px solid #E4E1D8;flex-wrap:wrap;">
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A8A82;">Filtros</span>
+          <sc-for list="{{ filtrosLead }}" as="f" hint-placeholder-count="5">
+            <button style="border:1px solid #E4E1D8;background:#FFF;font-size:12.5px;padding:6px 11px;cursor:pointer;" style-hover="border-color:#141414;">{{ f }}</button>
+          </sc-for>
+          <span style="margin-left:auto;font-size:12.5px;color:#8A8A82;">Ciclo médio de fechamento: <strong style="color:#141414;">{{ cicloMedio }}</strong> · taxa de conversão <strong style="color:#141414;">{{ conversao }}</strong></span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:2px solid #141414;">
+          <sc-for list="{{ colunas }}" as="c" hint-placeholder-count="4">
+            <div style="border-right:1px solid #E4E1D8;min-height:340px;">
+              <div style="padding:14px 16px;border-bottom:2px solid #141414;display:flex;align-items:baseline;gap:8px;">
+                <span style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;">{{ c.nome }}</span>
+                <span style="font-size:11.5px;color:#8A8A82;">{{ c.qtd }}</span>
+                <span style="margin-left:auto;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;color:#D6402C;">{{ c.valor }}</span>
+              </div>
+              <div style="padding:12px;display:flex;flex-direction:column;gap:10px;">
+                <sc-if value="{{ c.vazio }}" hint-placeholder-val="{{ false }}">
+                  <div style="border:1px dashed #C9C6BC;padding:14px;font-size:12.5px;color:#8A8A82;">Nenhum lead nesta etapa.</div>
+                </sc-if>
+                <sc-for list="{{ c.cards }}" as="l" hint-placeholder-count="2">
+                  <button onClick="{{ l.abrir }}" style="text-align:left;border:2px solid {{ l.bd }};background:#FFF;padding:13px;cursor:pointer;display:block;width:100%;" style-hover="border-color:#141414;">
+                    <div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline;">
+                      <span style="font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:600;letter-spacing:-.01em;">{{ l.nome }}</span>
+                      <span style="font-size:11px;color:{{ l.ageCor }};font-family:'Space Grotesk',sans-serif;white-space:nowrap;">{{ l.age }}</span>
+                    </div>
+                    <div style="font-size:12.5px;color:#8A8A82;margin-top:3px;">{{ l.nicho }} · {{ l.valor }}</div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;">
+                      <span style="font-size:10.5px;font-family:'Space Grotesk',sans-serif;letter-spacing:.06em;text-transform:uppercase;border:1px solid #E4E1D8;padding:2px 6px;color:#5A5A54;">{{ l.origem }}</span>
+                      <span style="font-size:10.5px;font-family:'Space Grotesk',sans-serif;letter-spacing:.06em;text-transform:uppercase;border:1px solid #E4E1D8;padding:2px 6px;color:#5A5A54;">{{ l.temp }}</span>
+                    </div>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <!-- DETALHE DO LEAD -->
+        <sc-if value="{{ temLead }}" hint-placeholder-val="{{ false }}">
+        <section style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-bottom:2px solid #141414;">
+          <div style="padding:26px 28px;border-right:2px solid #141414;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#D6402C;margin-bottom:8px;">Lead selecionado</div>
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:23px;letter-spacing:-.02em;">{{ lead.nome }}</h2>
+            <p style="font-size:14px;color:#5A5A54;margin:6px 0 20px;">{{ lead.resumo }}</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #E4E1D8;">
+              <sc-for list="{{ lead.campos }}" as="f" hint-placeholder-count="6">
+                <div style="padding:11px 0;border-bottom:1px solid #E4E1D8;padding-right:14px;">
+                  <div style="font-size:11px;font-family:'Space Grotesk',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8A8A82;">{{ f.k }}</div>
+                  <div style="font-size:14px;font-weight:500;margin-top:2px;">{{ f.v }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
+              <button style="background:#D6402C;color:#FAFAF7;border:2px solid #D6402C;font-weight:600;font-size:13.5px;padding:10px 16px;cursor:pointer;" style-hover="background:#B23520;">Gerar proposta</button>
+              <button style="border:2px solid #141414;background:transparent;font-weight:600;font-size:13.5px;padding:10px 16px;cursor:pointer;" style-hover="background:#141414;color:#FAFAF7;">Avançar etapa</button>
+              <button style="border:2px solid #E4E1D8;background:#FFF;font-size:13.5px;padding:10px 16px;cursor:pointer;" style-hover="border-color:#141414;">Agendar diagnóstico</button>
+            </div>
+          </div>
+          <div style="padding:26px 28px;background:#F2F1EC;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:5px;">O que o site já contou sobre ele</h3>
+            <p style="font-size:12.5px;color:#8A8A82;margin-bottom:16px;">Sessão anônima costurada ao contato no momento do clique do WhatsApp — com consentimento registrado.</p>
+            <div style="display:flex;flex-direction:column;gap:2px;">
+              <sc-for list="{{ lead.trilha }}" as="t" hint-placeholder-count="6">
+                <div style="display:flex;gap:12px;background:#FFF;border:1px solid #E4E1D8;padding:10px 12px;">
+                  <span style="font-family:'Space Grotesk',sans-serif;font-size:11.5px;color:#D6402C;width:46px;flex:0 0 auto;">{{ t.h }}</span>
+                  <span style="font-size:13px;flex:1;">{{ t.t }}</span>
+                  <span style="font-size:11.5px;color:#8A8A82;white-space:nowrap;">{{ t.m }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top:16px;border:2px solid #141414;background:#FFF;padding:14px 16px;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8A8A82;margin-bottom:6px;">Leitura automática</div>
+              <p style="font-size:13.5px;">{{ lead.leitura }}</p>
+            </div>
+          </div>
+        </section>
+        </sc-if>
+
+        <!-- ONBOARDING -->
+        <section style="padding:26px 28px;border-bottom:2px solid #141414;">
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;letter-spacing:-.02em;margin-bottom:5px;">Depois do contrato · esteira de onboarding</h2>
+          <p style="font-size:13.5px;color:#5A5A54;margin-bottom:20px;">Os quatro passos que vocês repetem em todo cliente novo, com dono e prazo. Cada quadrado marcado dispara o próximo aviso.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border-top:2px solid #141414;border-left:1px solid #E4E1D8;">
+            <sc-for list="{{ onboarding }}" as="o" hint-placeholder-count="4">
+              <div style="padding:18px 20px;border-right:1px solid #E4E1D8;border-bottom:1px solid #E4E1D8;">
+                <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;">
+                  <span style="width:18px;height:18px;border:2px solid #141414;background:{{ o.boxBg }};color:#FAFAF7;display:grid;place-items:center;font-size:11px;">{{ o.mark }}</span>
+                  <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8A8A82;">Passo {{ o.n }}</span>
+                </div>
+                <div style="font-size:14.5px;font-weight:600;font-family:'Space Grotesk',sans-serif;">{{ o.t }}</div>
+                <div style="font-size:12.5px;color:#8A8A82;margin-top:5px;">{{ o.d }}</div>
+                <div style="font-size:12px;color:#5A5A54;margin-top:10px;">{{ o.meta }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- ─────────── CLIENTES & CONTRATOS ─────────── -->
+    <sc-if value="{{ isClientes }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <section style="padding:24px 28px;border-bottom:2px solid #141414;">
+          <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;min-width:980px;">
+              <thead>
+                <tr style="border-top:2px solid #141414;border-bottom:2px solid #141414;">
+                  <th style="text-align:left;padding:11px 12px 11px 0;font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8A8A82;font-weight:500;">Cliente</th>
+                  <th style="text-align:left;padding:11px 12px;font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8A8A82;font-weight:500;">Plano</th>
+                  <th style="text-align:right;padding:11px 12px;font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8A8A82;font-weight:500;">MRR</th>
+                  <th style="text-align:right;padding:11px 12px;font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8A8A82;font-weight:500;">Custo/mês</th>
+                  <th style="text-align:right;padding:11px 12px;font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8A8A82;font-weight:500;">Margem</th>
+                  <th style="text-align:left;padding:11px 12px;font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8A8A82;font-weight:500;">Pagamento</th>
+                  <th style="text-align:left;padding:11px 12px;font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8A8A82;font-weight:500;">Renovação</th>
+                  <th style="text-align:left;padding:11px 0 11px 12px;font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8A8A82;font-weight:500;">Saúde</th>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ clientes }}" as="c" hint-placeholder-count="6">
+                  <tr style="border-bottom:1px solid #E4E1D8;">
+                    <td style="padding:14px 12px 14px 0;">
+                      <div style="font-size:14.5px;font-weight:600;font-family:'Space Grotesk',sans-serif;">{{ c.nome }}</div>
+                      <div style="font-size:12px;color:#8A8A82;">{{ c.nicho }} · desde {{ c.desde }}</div>
+                    </td>
+                    <td style="padding:14px 12px;font-size:13.5px;">{{ c.plano }}</td>
+                    <td style="padding:14px 12px;text-align:right;font-size:13.5px;font-weight:600;font-family:'Space Grotesk',sans-serif;">{{ c.mrr }}</td>
+                    <td style="padding:14px 12px;text-align:right;font-size:13.5px;color:#5A5A54;">{{ c.custo }}</td>
+                    <td style="padding:14px 12px;text-align:right;font-size:13.5px;font-weight:600;color:{{ c.margemCor }};">{{ c.margem }}</td>
+                    <td style="padding:14px 12px;font-size:13px;">{{ c.pgto }}</td>
+                    <td style="padding:14px 12px;font-size:13px;color:{{ c.renovCor }};font-weight:500;">{{ c.renov }}</td>
+                    <td style="padding:14px 0 14px 12px;">
+                      <span style="font-size:10.5px;font-family:'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase;background:{{ c.sBg }};color:{{ c.sFg }};border:1px solid {{ c.sBd }};padding:3px 8px;">{{ c.saude }}</span>
+                    </td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+            <sc-if value="{{ sem.clientes }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nenhum cliente cadastrado</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Cada cliente guarda plano, mensalidade, custo mensal, dia de pagamento e data de renovação — é daqui que sai a margem real e o alerta de contrato.</div>
+              </div>
+            </sc-if>
+          </div>
+        </section>
+
+        <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));border-bottom:2px solid #141414;">
+          <div style="padding:24px 28px;border-right:1px solid #E4E1D8;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:12px;">Contratos que exigem decisão</h3>
+            <sc-if value="{{ sem.contratos }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nenhuma decisão pendente</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Reajuste, fim de contrato e margem abaixo do piso aparecem aqui quando houver cliente cadastrado.</div>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <sc-for list="{{ contratos }}" as="c" hint-placeholder-count="3">
+                <div style="border-left:3px solid #D6402C;border-top:1px solid #E4E1D8;border-right:1px solid #E4E1D8;border-bottom:1px solid #E4E1D8;background:#FFF;padding:13px 15px;">
+                  <div style="font-size:14px;font-weight:600;font-family:'Space Grotesk',sans-serif;">{{ c.t }}</div>
+                  <div style="font-size:12.5px;color:#8A8A82;margin:4px 0 9px;">{{ c.d }}</div>
+                  <div style="font-size:12.5px;color:#5A5A54;">{{ c.acao }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:24px 28px;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:5px;">Documentos do cliente</h3>
+            <p style="font-size:12.5px;color:#8A8A82;margin-bottom:14px;">Contrato assinado, NF, escopo aprovado e termo de tratamento de dados ficam juntos do cadastro.</p>
+            <div style="border:2px dashed #C9C6BC;background:#FFF;padding:26px 20px;text-align:left;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Arraste um PDF ou imagem aqui</div>
+              <div style="font-size:12.5px;color:#8A8A82;margin-bottom:14px;">O sistema lê valor, CNPJ, vencimento e sugere onde arquivar. Você confirma antes de salvar.</div>
+              <button style="border:2px solid #141414;background:transparent;font-size:13px;font-weight:600;padding:8px 14px;cursor:pointer;" style-hover="background:#141414;color:#FAFAF7;">Escolher arquivo</button>
+            </div>
+            <div style="margin-top:14px;display:flex;flex-direction:column;gap:2px;">
+              <sc-for list="{{ docs }}" as="d" hint-placeholder-count="3">
+                <div style="display:flex;gap:10px;align-items:center;border:1px solid #E4E1D8;background:#FFF;padding:10px 12px;">
+                  <span style="font-family:'Space Grotesk',sans-serif;font-size:10.5px;letter-spacing:.08em;color:#D6402C;">{{ d.tipo }}</span>
+                  <span style="font-size:13px;flex:1;">{{ d.nome }}</span>
+                  <span style="font-size:11.5px;color:#8A8A82;">{{ d.meta }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- ─────────── PROJETOS & SPRINTS ─────────── -->
+    <sc-if value="{{ isProjetos }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <section style="border-bottom:2px solid #141414;">
+          <div style="padding:0 28px;">
+            <sc-if value="{{ sem.projetos }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nenhum projeto em andamento</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Ao abrir um projeto, você define horas orçadas, sprint e checklist de deploy — o painel passa a comparar horas gastas com o orçado.</div>
+              </div>
+            </sc-if>
+          </div>
+          <sc-for list="{{ projetos }}" as="p" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);border-bottom:1px solid #E4E1D8;">
+              <div style="padding:22px 28px;border-right:1px solid #E4E1D8;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                  <span style="font-size:10.5px;font-family:'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase;background:{{ p.stBg }};color:{{ p.stFg }};padding:3px 8px;">{{ p.status }}</span>
+                  <span style="font-size:11.5px;color:#8A8A82;font-family:'Space Grotesk',sans-serif;">{{ p.sprint }}</span>
+                </div>
+                <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;letter-spacing:-.02em;">{{ p.nome }}</h3>
+                <p style="font-size:13px;color:#5A5A54;margin-top:5px;">{{ p.escopo }}</p>
+                <div style="margin-top:16px;">
+                  <div style="display:flex;justify-content:space-between;font-size:12px;color:#8A8A82;margin-bottom:5px;">
+                    <span>Entrega</span><span>{{ p.pct }}%</span>
+                  </div>
+                  <div style="height:8px;background:#E4E1D8;">
+                    <div style="height:8px;background:#D6402C;width:{{ p.pct }}%;"></div>
+                  </div>
+                </div>
+                <div style="display:flex;gap:18px;margin-top:14px;">
+                  <div>
+                    <div style="font-size:11px;color:#8A8A82;font-family:'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase;">Horas</div>
+                    <div style="font-size:14px;font-weight:600;color:{{ p.horasCor }};">{{ p.horas }}</div>
+                  </div>
+                  <div>
+                    <div style="font-size:11px;color:#8A8A82;font-family:'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase;">Valor/hora real</div>
+                    <div style="font-size:14px;font-weight:600;">{{ p.vh }}</div>
+                  </div>
+                  <div>
+                    <div style="font-size:11px;color:#8A8A82;font-family:'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase;">Entrega prevista</div>
+                    <div style="font-size:14px;font-weight:600;">{{ p.prazo }}</div>
+                  </div>
+                </div>
+              </div>
+              <div style="padding:22px 24px;border-right:1px solid #E4E1D8;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8A8A82;margin-bottom:12px;">Backlog do sprint</div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  <sc-for list="{{ p.itens }}" as="i" hint-placeholder-count="4">
+                    <div style="display:flex;gap:10px;align-items:flex-start;">
+                      <span style="width:15px;height:15px;border:2px solid #141414;background:{{ i.boxBg }};color:#FAFAF7;display:grid;place-items:center;font-size:10px;flex:0 0 auto;margin-top:2px;">{{ i.mark }}</span>
+                      <span style="font-size:13px;flex:1;color:{{ i.cor }};">{{ i.t }}</span>
+                      <span style="font-size:11px;color:#8A8A82;font-family:'Space Grotesk',sans-serif;">{{ i.dono }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="padding:22px 24px;background:#F2F1EC;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8A8A82;margin-bottom:12px;">Checklist de deploy</div>
+                <div style="display:flex;flex-direction:column;gap:7px;">
+                  <sc-for list="{{ p.deploy }}" as="d" hint-placeholder-count="5">
+                    <div style="display:flex;gap:9px;align-items:center;font-size:12.5px;">
+                      <span style="width:13px;height:13px;border:1px solid #141414;background:{{ d.boxBg }};color:#FAFAF7;display:grid;place-items:center;font-size:9px;flex:0 0 auto;">{{ d.mark }}</span>
+                      <span style="flex:1;color:{{ d.cor }};">{{ d.t }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="margin-top:14px;font-size:11.5px;color:#8A8A82;">Último deploy: {{ p.ultimoDeploy }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- ─────────── TAREFAS & CALENDAR ─────────── -->
+    <sc-if value="{{ isTarefas }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <section style="display:grid;grid-template-columns:minmax(0,1fr) 320px;border-bottom:2px solid #141414;align-items:start;">
+          <div style="padding:24px 28px;border-right:2px solid #141414;">
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:14px;">
+              <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;letter-spacing:-.02em;">Esta semana</h2>
+              <span style="font-size:12.5px;color:#8A8A82;">bloco criado aqui vira evento no Google Calendar</span>
+            </div>
+            <div style="display:grid;grid-template-columns:52px repeat(5,minmax(0,1fr));border:1px solid #E4E1D8;background:#FFF;">
+              <div style="border-right:1px solid #E4E1D8;"></div>
+              <sc-for list="{{ dias }}" as="d" hint-placeholder-count="5">
+                <div style="padding:9px 10px;border-right:1px solid #E4E1D8;border-bottom:1px solid #E4E1D8;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;background:{{ d.bg }};">{{ d.l }}</div>
+              </sc-for>
+              <sc-for list="{{ grade }}" as="g" hint-placeholder-count="18">
+                <div style="border-right:1px solid #E4E1D8;border-bottom:1px solid #E4E1D8;padding:5px 7px;min-height:44px;font-size:11.5px;background:{{ g.bg }};color:{{ g.fg }};font-weight:{{ g.w }};">{{ g.t }}</div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;font-size:11.5px;color:#8A8A82;">
+              <span style="display:flex;align-items:center;gap:6px;"><span style="width:11px;height:11px;background:#141414;display:block;"></span>Foco / desenvolvimento</span>
+              <span style="display:flex;align-items:center;gap:6px;"><span style="width:11px;height:11px;background:#D6402C;display:block;"></span>Cliente / reunião</span>
+              <span style="display:flex;align-items:center;gap:6px;"><span style="width:11px;height:11px;background:#E4E1D8;display:block;"></span>Manutenção recorrente</span>
+            </div>
+          </div>
+          <div style="padding:24px 24px;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:12px;">Nova tarefa</h3>
+            <div style="display:flex;flex-direction:column;gap:9px;">
+              <input placeholder="O que precisa ser feito" style="border:2px solid #E4E1D8;background:#FFF;padding:10px 12px;font-size:13.5px;outline:none;">
+              <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px;">
+                <input placeholder="Cliente" style="min-width:0;width:100%;border:2px solid #E4E1D8;background:#FFF;padding:10px 12px;font-size:13.5px;outline:none;">
+                <input placeholder="Estimativa (h)" style="min-width:0;width:100%;border:2px solid #E4E1D8;background:#FFF;padding:10px 12px;font-size:13.5px;outline:none;">
+              </div>
+              <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px;">
+                <input placeholder="Data" style="min-width:0;width:100%;border:2px solid #E4E1D8;background:#FFF;padding:10px 12px;font-size:13.5px;outline:none;">
+                <input placeholder="Hora" style="min-width:0;width:100%;border:2px solid #E4E1D8;background:#FFF;padding:10px 12px;font-size:13.5px;outline:none;">
+              </div>
+              <label style="display:flex;gap:9px;align-items:flex-start;border:2px solid #141414;background:#FFF;padding:11px 12px;cursor:pointer;font-size:13px;">
+                <input type="checkbox" defaultChecked="{{ true }}" style="margin-top:3px;accent-color:#D6402C;">
+                <span>Criar evento no Google Calendar<br><span style="color:#8A8A82;font-size:12px;">agenda@automindsolution.com · lembrete 30 min antes</span></span>
+              </label>
+              <button style="background:#D6402C;color:#FAFAF7;border:2px solid #D6402C;font-weight:600;font-size:14px;padding:11px 16px;cursor:pointer;text-align:left;" style-hover="background:#B23520;">Salvar tarefa</button>
+            </div>
+            <div style="margin-top:18px;border-top:1px solid #E4E1D8;padding-top:14px;font-size:12px;color:#8A8A82;">
+              {{ syncCalendar }}
+            </div>
+          </div>
+        </section>
+
+        <section style="padding:24px 28px;border-bottom:2px solid #141414;">
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:14px;">Tarefas abertas</h3>
+          <sc-if value="{{ sem.tarefas }}" hint-placeholder-val="{{ false }}">
+            <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nenhuma tarefa aberta</div>
+              <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Use o formulário ao lado: com a opção do Calendar marcada, a tarefa vira evento na agenda da Automind.</div>
+            </div>
+          </sc-if>
+          <div style="border-top:2px solid #141414;">
+            <sc-for list="{{ tarefas }}" as="t" hint-placeholder-count="7">
+              <div style="display:grid;grid-template-columns:22px 1fr 130px 96px 110px 96px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #E4E1D8;">
+                <button onClick="{{ t.toggle }}" style="width:19px;height:19px;border:2px solid #141414;background:{{ t.boxBg }};color:#FAFAF7;display:grid;place-items:center;font-size:11px;cursor:pointer;padding:0;">{{ t.mark }}</button>
+                <div>
+                  <div style="font-size:14px;font-weight:500;text-decoration:{{ t.risco }};color:{{ t.cor }};">{{ t.t }}</div>
+                  <div style="font-size:12px;color:#8A8A82;">{{ t.d }}</div>
+                </div>
+                <div style="font-size:12.5px;color:#5A5A54;">{{ t.cliente }}</div>
+                <div style="font-size:12.5px;color:#5A5A54;">{{ t.dono }}</div>
+                <div style="font-size:12.5px;font-weight:600;color:{{ t.prazoCor }};">{{ t.prazo }}</div>
+                <div style="font-size:11px;font-family:'Space Grotesk',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:{{ t.calCor }};">{{ t.cal }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- ─────────── FINANCEIRO ─────────── -->
+    <sc-if value="{{ isFinanceiro }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));border-bottom:2px solid #141414;">
+          <sc-for list="{{ finKpis }}" as="k" hint-placeholder-count="5">
+            <div style="padding:20px 24px;border-right:1px solid #E4E1D8;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#8A8A82;margin-bottom:9px;">{{ k.label }}</div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;letter-spacing:-.03em;line-height:1;">{{ k.valor }}</div>
+              <div style="font-size:12px;color:#8A8A82;margin-top:6px;">{{ k.sub }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <!-- CICLO DO CARTÃO -->
+        <section style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-bottom:2px solid #141414;align-items:start;">
+          <div style="padding:26px 28px;border-right:2px solid #141414;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#D6402C;margin-bottom:8px;">Ciclo do cartão</div>
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;letter-spacing:-.02em;margin-bottom:6px;">{{ ciclo.titulo }}</h2>
+            <p style="font-size:13.5px;color:#5A5A54;margin-bottom:20px;max-width:460px;">Toda assinatura nova é posicionada dentro do ciclo, então vocês sabem quanto já está comprometido antes de clicar em "assinar".</p>
+            <div style="border:2px solid #141414;background:#FFF;padding:18px 20px;">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px;">
+                <span style="font-size:13px;color:#5A5A54;">Comprometido neste ciclo</span>
+                <span style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;">{{ ciclo.usado }}</span>
+              </div>
+              <div style="height:12px;background:#E4E1D8;">
+                <div style="height:12px;background:#141414;width:{{ ciclo.pct }}%;"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:11.5px;color:#8A8A82;margin-top:7px;">
+                <span>teto definido {{ ciclo.teto }}</span>
+                <span>{{ ciclo.dias }}</span>
+              </div>
+            </div>
+            <div style="margin-top:16px;background:#141414;color:#FAFAF7;padding:18px 20px;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9A9A92;margin-bottom:7px;">Melhor janela para assinar</div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px;">{{ ciclo.janela }}</div>
+              <p style="font-size:13px;color:#C8C8C0;">{{ ciclo.janelaTxt }}</p>
+            </div>
+          </div>
+          <div style="padding:26px 28px;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:5px;">Assinaturas do estúdio</h3>
+            <p style="font-size:12.5px;color:#8A8A82;margin-bottom:14px;">Custo, dia da cobrança, uso real e para quem é rateado.</p>
+            <sc-if value="{{ sem.assinaturas }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nenhuma assinatura cadastrada</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Cadastre cada ferramenta com valor, dia da cobrança e a quem é rateada. É essa lista que alimenta o alerta de assinatura ociosa e o custo real por cliente.</div>
+              </div>
+            </sc-if>
+            <div style="border-top:2px solid #141414;">
+              <sc-for list="{{ assinaturas }}" as="a" hint-placeholder-count="8">
+                <div style="display:grid;grid-template-columns:1fr 76px 84px 96px;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid #E4E1D8;">
+                  <div>
+                    <div style="font-size:13.5px;font-weight:500;">{{ a.nome }}</div>
+                    <div style="font-size:11.5px;color:#8A8A82;">{{ a.rateio }}</div>
+                  </div>
+                  <div style="font-size:13px;text-align:right;font-family:'Space Grotesk',sans-serif;font-weight:600;">{{ a.custo }}</div>
+                  <div style="font-size:12px;color:#5A5A54;text-align:right;">dia {{ a.dia }}</div>
+                  <div style="text-align:right;">
+                    <span style="font-size:10.5px;font-family:'Space Grotesk',sans-serif;letter-spacing:.06em;text-transform:uppercase;background:{{ a.usoBg }};color:{{ a.usoFg }};border:1px solid {{ a.usoBd }};padding:2px 7px;">{{ a.uso }}</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </section>
+
+        <!-- INSIGHTS -->
+        <section style="padding:26px 28px;border-bottom:2px solid #141414;">
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;letter-spacing:-.02em;margin-bottom:5px;">Insights de custo</h2>
+          <p style="font-size:13.5px;color:#5A5A54;margin-bottom:20px;">Regras que rodam toda madrugada em cima do histórico de uso e de cobrança.</p>
+          <sc-if value="{{ sem.insights }}" hint-placeholder-val="{{ false }}">
+            <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Sem histórico suficiente</div>
+              <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Os insights aparecem depois do primeiro ciclo completo de cobrança — melhor janela para assinar, ferramenta ociosa, custo por cliente e concentração de receita.</div>
+            </div>
+          </sc-if>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));border-top:2px solid #141414;border-left:1px solid #E4E1D8;">
+            <sc-for list="{{ insights }}" as="i" hint-placeholder-count="4">
+              <div style="padding:20px 22px;border-right:1px solid #E4E1D8;border-bottom:1px solid #E4E1D8;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#D6402C;margin-bottom:9px;">{{ i.tag }}</div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;letter-spacing:-.02em;margin-bottom:7px;">{{ i.t }}</div>
+                <p style="font-size:13px;color:#5A5A54;margin-bottom:12px;">{{ i.d }}</p>
+                <div style="font-size:12.5px;font-weight:600;">{{ i.impacto }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <!-- FLUXO -->
+        <section style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-bottom:2px solid #141414;align-items:start;">
+          <div style="padding:26px 28px;border-right:2px solid #141414;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:14px;">A receber</h3>
+            <sc-if value="{{ sem.receber }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nada a receber lançado</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Mensalidades e parcelas entram automaticamente quando o cliente é cadastrado com dia de pagamento.</div>
+              </div>
+            </sc-if>
+            <div style="border-top:2px solid #141414;">
+              <sc-for list="{{ receber }}" as="r" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:1fr 92px 92px;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid #E4E1D8;">
+                  <div>
+                    <div style="font-size:13.5px;font-weight:500;">{{ r.cliente }}</div>
+                    <div style="font-size:11.5px;color:#8A8A82;">{{ r.tipo }}</div>
+                  </div>
+                  <div style="font-size:12.5px;color:{{ r.cor }};font-weight:500;">{{ r.venc }}</div>
+                  <div style="font-size:13.5px;text-align:right;font-family:'Space Grotesk',sans-serif;font-weight:600;">{{ r.valor }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:26px 28px;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:14px;">A pagar</h3>
+            <sc-if value="{{ sem.pagar }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nada a pagar lançado</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Solte a nota fiscal no campo abaixo ou lance manualmente.</div>
+              </div>
+            </sc-if>
+            <div style="border-top:2px solid #141414;">
+              <sc-for list="{{ pagar }}" as="r" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:1fr 92px 92px;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid #E4E1D8;">
+                  <div>
+                    <div style="font-size:13.5px;font-weight:500;">{{ r.cliente }}</div>
+                    <div style="font-size:11.5px;color:#8A8A82;">{{ r.tipo }}</div>
+                  </div>
+                  <div style="font-size:12.5px;color:{{ r.cor }};font-weight:500;">{{ r.venc }}</div>
+                  <div style="font-size:13.5px;text-align:right;font-family:'Space Grotesk',sans-serif;font-weight:600;">{{ r.valor }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top:18px;border:2px dashed #C9C6BC;background:#FFF;padding:20px;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Lançar por documento</div>
+              <div style="font-size:12.5px;color:#8A8A82;margin-bottom:12px;">Solte a NF ou o print da fatura: o sistema extrai fornecedor, valor, vencimento e categoria, e abre o lançamento preenchido para você confirmar.</div>
+              <div style="display:flex;gap:9px;flex-wrap:wrap;">
+                <button style="border:2px solid #141414;background:transparent;font-size:13px;font-weight:600;padding:8px 14px;cursor:pointer;" style-hover="background:#141414;color:#FAFAF7;">Enviar PDF ou imagem</button>
+                <button style="border:2px solid #E4E1D8;background:#FFF;font-size:13px;padding:8px 14px;cursor:pointer;" style-hover="border-color:#141414;">Lançar manualmente</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- ─────────── ANALYTICS ─────────── -->
+    <sc-if value="{{ isAnalytics }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <section style="padding:26px 28px;border-bottom:2px solid #141414;">
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;letter-spacing:-.02em;margin-bottom:5px;">Funil do site · últimos 30 dias</h2>
+          <p style="font-size:13.5px;color:#5A5A54;margin-bottom:20px;">Cada etapa é um evento disparado pelo site público. Onde o número cai muito, é ali que o front-end precisa mudar.</p>
+          <sc-if value="{{ sem.funil }}" hint-placeholder-val="{{ false }}">
+            <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nenhum evento recebido</div>
+              <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">O funil começa a preencher assim que o script de coleta estiver publicado no site — a especificação dos eventos está no fim desta aba.</div>
+            </div>
+          </sc-if>
+          <div style="display:flex;flex-direction:column;gap:6px;max-width:820px;">
+            <sc-for list="{{ funil }}" as="f" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;gap:14px;">
+                <div style="width:190px;flex:0 0 auto;">
+                  <div style="font-size:13.5px;font-weight:500;">{{ f.etapa }}</div>
+                  <div style="font-size:11px;color:#8A8A82;font-family:'Space Grotesk',sans-serif;">{{ f.ev }}</div>
+                </div>
+                <div style="flex:1;height:30px;background:#E4E1D8;">
+                  <div style="height:30px;background:{{ f.cor }};width:{{ f.pct }}%;"></div>
+                </div>
+                <div style="width:120px;flex:0 0 auto;text-align:right;">
+                  <span style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;">{{ f.n }}</span>
+                  <span style="font-size:12px;color:#8A8A82;"> · {{ f.taxa }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));border-bottom:2px solid #141414;">
+          <div style="padding:24px 28px;border-right:1px solid #E4E1D8;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:12px;">Origem dos leads</h3>
+            <sc-if value="{{ sem.origens }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Sem sessões registradas</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">UTM e referrer de cada sessão aparecem aqui.</div>
+              </div>
+            </sc-if>
+            <div style="border-top:2px solid #141414;">
+              <sc-for list="{{ origens }}" as="o" hint-placeholder-count="5">
+                <div style="display:grid;grid-template-columns:1fr 60px 70px 80px;gap:8px;padding:10px 0;border-bottom:1px solid #E4E1D8;align-items:center;">
+                  <div style="font-size:13px;font-family:'Space Grotesk',sans-serif;">{{ o.src }}</div>
+                  <div style="font-size:13px;text-align:right;">{{ o.sessoes }}</div>
+                  <div style="font-size:13px;text-align:right;font-weight:600;">{{ o.leads }}</div>
+                  <div style="font-size:12.5px;text-align:right;color:{{ o.cor }};">{{ o.conv }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="font-size:11.5px;color:#8A8A82;margin-top:9px;">sessões · leads · conversão</div>
+          </div>
+          <div style="padding:24px 28px;border-right:1px solid #E4E1D8;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:12px;">Interesse por nicho</h3>
+            <sc-if value="{{ sem.nichos }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Sem cliques em nicho</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Cada clique nos cards Ecommerce, Saúde e Serviços é contado aqui.</div>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <sc-for list="{{ nichos }}" as="n" hint-placeholder-count="3">
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;">
+                    <span style="font-weight:500;">{{ n.t }}</span><span style="color:#8A8A82;">{{ n.v }}</span>
+                  </div>
+                  <div style="height:10px;background:#E4E1D8;"><div style="height:10px;background:#D6402C;width:{{ n.pct }}%;"></div></div>
+                  <div style="font-size:11.5px;color:#8A8A82;margin-top:4px;">{{ n.nota }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:24px 28px;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:12px;">Atenção por seção</h3>
+            <sc-if value="{{ sem.secoes }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Sem leitura registrada</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Tempo visível e alcance de cada seção do site.</div>
+              </div>
+            </sc-if>
+            <div style="border-top:2px solid #141414;">
+              <sc-for list="{{ secoes }}" as="s" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:1fr 66px 66px;gap:8px;padding:9px 0;border-bottom:1px solid #E4E1D8;align-items:center;">
+                  <div style="font-size:13px;">{{ s.t }}</div>
+                  <div style="font-size:12.5px;text-align:right;color:#5A5A54;">{{ s.tempo }}</div>
+                  <div style="font-size:12.5px;text-align:right;color:{{ s.cor }};font-weight:500;">{{ s.alcance }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="font-size:11.5px;color:#8A8A82;margin-top:9px;">tempo médio visível · % que chegou até ali</div>
+          </div>
+        </section>
+
+        <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));border-bottom:2px solid #141414;">
+          <div style="padding:24px 28px;border-right:1px solid #E4E1D8;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:12px;">Termos digitados na busca e no chat</h3>
+            <sc-if value="{{ sem.termos }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nenhum termo registrado</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">O que as pessoas digitam no site vira pauta de serviço aqui.</div>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+              <sc-for list="{{ termos }}" as="t" hint-placeholder-count="8">
+                <span style="border:1px solid #E4E1D8;background:#FFF;padding:6px 11px;font-size:13px;">{{ t.t }} <span style="color:#8A8A82;font-size:11.5px;">{{ t.n }}</span></span>
+              </sc-for>
+            </div>
+            <p style="font-size:12.5px;color:#5A5A54;margin-top:14px;">Termo que se repete é sinal de serviço faltando no site — vale virar um card novo.</p>
+          </div>
+          <div style="padding:24px 28px;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:12px;">Dispositivo, região e horário</h3>
+            <sc-if value="{{ sem.contexto }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Sem contexto de acesso</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Dispositivo, região e horário de pico do site aparecem aqui.</div>
+              </div>
+            </sc-if>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+              <div>
+                <sc-for list="{{ contexto }}" as="c" hint-placeholder-count="6">
+                  <div style="display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px solid #E4E1D8;">
+                    <span>{{ c.k }}</span><span style="font-weight:600;">{{ c.v }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div>
+                <div style="font-size:11.5px;color:#8A8A82;font-family:'Space Grotesk',sans-serif;letter-spacing:.1em;text-transform:uppercase;margin-bottom:9px;">Pico de contato</div>
+                <div style="display:flex;align-items:flex-end;gap:4px;height:110px;">
+                  <sc-for list="{{ horas }}" as="h" hint-placeholder-count="10">
+                    <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px;height:100%;">
+                      <div style="width:100%;background:{{ h.cor }};height:{{ h.pct }}%;"></div>
+                      <span style="font-size:9.5px;color:#8A8A82;">{{ h.h }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <p style="font-size:12px;color:#5A5A54;margin-top:10px;">O horário de pico define a janela em que a resposta automática mais rende.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- INSTRUMENTAÇÃO -->
+        <sc-if value="{{ mostrarInstrumentacao }}" hint-placeholder-val="{{ true }}">
+          <section style="padding:26px 28px;border-bottom:2px solid #141414;background:#F2F1EC;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#D6402C;margin-bottom:8px;">Para implementar no site público</div>
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;letter-spacing:-.02em;margin-bottom:5px;">Eventos que alimentam este painel</h2>
+            <p style="font-size:13.5px;color:#5A5A54;margin-bottom:20px;max-width:640px;">Um único script no site (<code style="font-family:'Space Grotesk',monospace;">automind.js</code>) dispara os eventos abaixo. Nenhum deles guarda dado pessoal antes do consentimento.</p>
+            <div style="border-top:2px solid #141414;background:#FFF;">
+              <sc-for list="{{ eventos }}" as="e" hint-placeholder-count="8">
+                <div style="display:grid;grid-template-columns:210px 1fr 1fr;gap:16px;padding:14px 16px;border-bottom:1px solid #E4E1D8;">
+                  <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:#D6402C;word-break:break-all;">{{ e.nome }}</div>
+                  <div>
+                    <div style="font-size:13px;font-weight:500;">{{ e.oque }}</div>
+                    <div style="font-size:12px;color:#8A8A82;margin-top:3px;">gatilho: {{ e.gatilho }}</div>
+                  </div>
+                  <div style="font-size:12.5px;color:#5A5A54;font-family:'Space Grotesk',sans-serif;">{{ e.payload }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;margin-top:20px;">
+              <sc-for list="{{ boasPraticas }}" as="b" hint-placeholder-count="4">
+                <div style="border:1px solid #E4E1D8;background:#FFF;padding:16px 18px;">
+                  <div style="font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:600;margin-bottom:6px;">{{ b.t }}</div>
+                  <p style="font-size:12.5px;color:#5A5A54;">{{ b.d }}</p>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ─────────── PROPOSTAS ─────────── -->
+    <sc-if value="{{ isPropostas }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <section style="padding:24px 28px;border-bottom:2px solid #141414;">
+          <div style="border-top:2px solid #141414;">
+
+            <sc-if value="{{ sem.propostas }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nenhuma proposta emitida</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Cada proposta guarda escopo, modelo de cobrança, validade e quantas vezes o cliente abriu o link.</div>
+              </div>
+            </sc-if>
+            <sc-for list="{{ propostas }}" as="p" hint-placeholder-count="5">
+              <div style="display:grid;grid-template-columns:1fr 120px 120px 110px 130px;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid #E4E1D8;">
+                <div>
+                  <div style="font-size:14.5px;font-weight:600;font-family:'Space Grotesk',sans-serif;">{{ p.cliente }}</div>
+                  <div style="font-size:12.5px;color:#8A8A82;">{{ p.escopo }}</div>
+                </div>
+                <div style="font-size:13px;">{{ p.modelo }}</div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;">{{ p.valor }}</div>
+                <div style="font-size:12.5px;color:{{ p.valCor }};">{{ p.validade }}</div>
+                <div>
+                  <span style="font-size:10.5px;font-family:'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase;background:{{ p.stBg }};color:{{ p.stFg }};border:1px solid {{ p.stBd }};padding:3px 8px;">{{ p.status }}</span>
+                  <div style="font-size:11.5px;color:#8A8A82;margin-top:4px;">{{ p.visu }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+        <section style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-bottom:2px solid #141414;align-items:start;">
+          <div style="padding:26px 28px;border-right:2px solid #141414;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:5px;">Calculadora de preço</h3>
+            <p style="font-size:12.5px;color:#8A8A82;margin-bottom:16px;">Parte do custo real do projeto (horas + APIs + hospedagem) e mostra a margem antes de você mandar o número.</p>
+            <div style="border-top:2px solid #141414;">
+              <sc-for list="{{ calc }}" as="c" hint-placeholder-count="6">
+                <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #E4E1D8;">
+                  <span style="font-size:13.5px;color:{{ c.cor }};font-weight:{{ c.peso }};">{{ c.k }}</span>
+                  <span style="font-size:13.5px;font-family:'Space Grotesk',sans-serif;font-weight:600;color:{{ c.cor }};">{{ c.v }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:26px 28px;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:14px;">Taxa de aceite por faixa</h3>
+            <sc-if value="{{ sem.faixas }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Sem histórico de propostas</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Depois de algumas propostas, o painel mostra em qual faixa de preço vocês mais fecham.</div>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <sc-for list="{{ faixas }}" as="f" hint-placeholder-count="4">
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;">
+                    <span>{{ f.faixa }}</span><span style="font-weight:600;">{{ f.taxa }}</span>
+                  </div>
+                  <div style="height:10px;background:#E4E1D8;"><div style="height:10px;background:#141414;width:{{ f.pct }}%;"></div></div>
+                  <div style="font-size:11.5px;color:#8A8A82;margin-top:4px;">{{ f.n }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <p style="font-size:12.5px;color:#5A5A54;margin-top:16px;">Compare a taxa de aceite por faixa antes de fechar o preço da próxima proposta.</p>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- ─────────── SISTEMAS & DEPLOYS ─────────── -->
+    <sc-if value="{{ isSistemas }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <section style="padding:24px 28px;border-bottom:2px solid #141414;">
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;letter-spacing:-.02em;margin-bottom:16px;">Sites e automações no ar</h2>
+          <sc-if value="{{ sem.sistemas }}" hint-placeholder-val="{{ false }}">
+            <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nenhum sistema monitorado</div>
+              <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Cadastre cada site e automação entregue para acompanhar uptime, tempo de resposta e último deploy.</div>
+            </div>
+          </sc-if>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));border-top:2px solid #141414;border-left:1px solid #E4E1D8;">
+            <sc-for list="{{ sistemas }}" as="s" hint-placeholder-count="6">
+              <div style="padding:18px 20px;border-right:1px solid #E4E1D8;border-bottom:1px solid #E4E1D8;">
+                <div style="display:flex;align-items:center;gap:9px;margin-bottom:8px;">
+                  <span style="width:9px;height:9px;background:{{ s.cor }};display:block;"></span>
+                  <span style="font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:600;">{{ s.nome }}</span>
+                </div>
+                <div style="font-size:12.5px;color:#8A8A82;margin-bottom:12px;">{{ s.url }}</div>
+                <div style="display:flex;gap:16px;">
+                  <div>
+                    <div style="font-size:10.5px;color:#8A8A82;font-family:'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase;">Uptime 30d</div>
+                    <div style="font-size:15px;font-weight:600;font-family:'Space Grotesk',sans-serif;">{{ s.uptime }}</div>
+                  </div>
+                  <div>
+                    <div style="font-size:10.5px;color:#8A8A82;font-family:'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase;">Resposta</div>
+                    <div style="font-size:15px;font-weight:600;font-family:'Space Grotesk',sans-serif;">{{ s.resp }}</div>
+                  </div>
+                  <div>
+                    <div style="font-size:10.5px;color:#8A8A82;font-family:'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase;">Último deploy</div>
+                    <div style="font-size:15px;font-weight:600;font-family:'Space Grotesk',sans-serif;">{{ s.deploy }}</div>
+                  </div>
+                </div>
+                <div style="font-size:12px;color:{{ s.notaCor }};margin-top:11px;">{{ s.nota }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);border-bottom:2px solid #141414;align-items:start;">
+          <div style="padding:26px 28px;border-right:2px solid #141414;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:5px;">Log de erros dos bots e automações</h3>
+            <p style="font-size:12.5px;color:#8A8A82;margin-bottom:14px;">Falha em automação de cliente entra aqui e vira tarefa automaticamente quando repete três vezes.</p>
+            <sc-if value="{{ sem.logs }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nenhum erro registrado</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Silêncio aqui é boa notícia.</div>
+              </div>
+            </sc-if>
+            <div style="border-top:2px solid #141414;">
+              <sc-for list="{{ logs }}" as="l" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:92px 1fr 96px;gap:12px;padding:11px 0;border-bottom:1px solid #E4E1D8;align-items:baseline;">
+                  <div style="font-family:'Space Grotesk',sans-serif;font-size:11.5px;color:#8A8A82;">{{ l.quando }}</div>
+                  <div>
+                    <div style="font-size:13px;"><span style="color:{{ l.nivelCor }};font-weight:600;font-family:'Space Grotesk',sans-serif;">{{ l.nivel }}</span> · {{ l.msg }}</div>
+                    <div style="font-size:11.5px;color:#8A8A82;font-family:'Space Grotesk',sans-serif;">{{ l.origem }}</div>
+                  </div>
+                  <div style="font-size:11.5px;color:#8A8A82;text-align:right;">{{ l.qtd }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:26px 28px;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:5px;">Variáveis e credenciais por projeto</h3>
+            <p style="font-size:12.5px;color:#8A8A82;margin-bottom:14px;">Só a referência de onde a chave vive e quando expira. Valor nenhum é guardado aqui — o painel aponta para o cofre.</p>
+            <sc-if value="{{ sem.vars }}" hint-placeholder-val="{{ false }}">
+              <div style="border:2px dashed #C9C6BC;background:#FFF;padding:20px 22px;margin-top:12px;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:5px;">Nenhuma credencial referenciada</div>
+                <div style="font-size:12.5px;color:#8A8A82;max-width:520px;">Registre o nome da variável, onde ela vive e a data de expiração — nunca o valor.</div>
+              </div>
+            </sc-if>
+            <div style="border-top:2px solid #141414;">
+              <sc-for list="{{ vars }}" as="v" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:1fr 90px;gap:10px;padding:10px 0;border-bottom:1px solid #E4E1D8;align-items:center;">
+                  <div>
+                    <div style="font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:600;">{{ v.chave }}</div>
+                    <div style="font-size:11.5px;color:#8A8A82;">{{ v.onde }}</div>
+                  </div>
+                  <div style="font-size:11.5px;text-align:right;color:{{ v.cor }};font-weight:500;">{{ v.exp }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- ─────────── CONFIG DO SITE ─────────── -->
+    <sc-if value="{{ isConfig }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <section style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-bottom:2px solid #141414;align-items:start;">
+          <div style="padding:26px 28px;border-right:2px solid #141414;">
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;letter-spacing:-.02em;margin-bottom:5px;">Conteúdo do site</h2>
+            <p style="font-size:13.5px;color:#5A5A54;margin-bottom:20px;">O que muda com frequência fica editável aqui, sem deploy.</p>
+            <div style="display:flex;flex-direction:column;gap:16px;max-width:520px;">
+              <sc-for list="{{ campos }}" as="c" hint-placeholder-count="5">
+                <div>
+                  <label style="display:block;font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8A8A82;margin-bottom:6px;">{{ c.k }}</label>
+                  <input defaultValue="{{ c.v }}" style="width:100%;border:2px solid #E4E1D8;background:#FFF;padding:11px 13px;font-size:14px;outline:none;">
+                  <div style="font-size:11.5px;color:#8A8A82;margin-top:5px;">{{ c.nota }}</div>
+                </div>
+              </sc-for>
+              <button style="align-self:flex-start;background:#D6402C;color:#FAFAF7;border:2px solid #D6402C;font-weight:600;font-size:14px;padding:11px 18px;cursor:pointer;" style-hover="background:#B23520;">Publicar alterações</button>
+            </div>
+          </div>
+          <div style="padding:26px 28px;">
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;letter-spacing:-.02em;margin-bottom:5px;">Coleta de dados e conformidade</h2>
+            <p style="font-size:13.5px;color:#5A5A54;margin-bottom:20px;">O que o site pode registrar, por quanto tempo e sob qual base legal.</p>
+            <div style="display:flex;flex-direction:column;gap:2px;">
+              <sc-for list="{{ switches }}" as="s" hint-placeholder-count="6">
+                <div style="display:flex;gap:12px;align-items:flex-start;border:1px solid #E4E1D8;background:#FFF;padding:13px 15px;">
+                  <button onClick="{{ s.toggle }}" style="width:38px;height:21px;flex:0 0 auto;border:2px solid #141414;background:{{ s.trilhoBg }};padding:0;cursor:pointer;display:flex;align-items:center;justify-content:{{ s.just }};">
+                    <span style="width:13px;height:13px;background:{{ s.knob }};display:block;margin:0 2px;"></span>
+                  </button>
+                  <div style="flex:1;">
+                    <div style="font-size:13.5px;font-weight:500;">{{ s.t }}</div>
+                    <div style="font-size:12px;color:#8A8A82;">{{ s.d }}</div>
+                  </div>
+                  <span style="font-size:10.5px;font-family:'Space Grotesk',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#8A8A82;white-space:nowrap;">{{ s.base }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top:20px;border:2px solid #141414;background:#FFF;padding:18px 20px;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8A8A82;margin-bottom:9px;">Regras fixas do painel</div>
+              <div style="display:flex;flex-direction:column;gap:9px;">
+                <sc-for list="{{ regras }}" as="r" hint-placeholder-count="5">
+                  <div style="display:flex;gap:10px;font-size:13px;">
+                    <span style="color:#D6402C;font-weight:700;flex:0 0 auto;">→</span><span>{{ r }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    </div>
+  </main>
+</div>
+
+</sc-if></x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000},&quot;iniciarLogado&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Acesso&quot;},&quot;dadosDemo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Dados&quot;},&quot;janelaRadar&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:30,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:7,&quot;max&quot;:90,&quot;unit&quot;:&quot;dias&quot;,&quot;section&quot;:&quot;Painel&quot;},&quot;mostrarInstrumentacao&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Painel&quot;}}">
+class Component extends DCLogic {
+  state = { tab: 'visao', lead: 0, feitas: {}, sw: { s0:true, s1:true, s2:true, s3:false, s4:true, s5:true },
+            fase: 'inicio', logado: false, usuario: null, tentativa: '' };
+
+  go(t){ return () => this.setState({ tab: t }); }
+
+  componentWillUnmount(){ clearTimeout(this._t); }
+
+  escolher(c){
+    return () => {
+      if (!c.permitido) { this.setState({ fase: 'negado', tentativa: c.email }); return; }
+      this.setState({ fase: 'entrando', tentativa: c.email });
+      clearTimeout(this._t);
+      this._t = setTimeout(() => this.setState({ logado: true, fase: 'inicio', usuario: c }), 900);
+    };
+  }
+
+  renderVals(){
+    const S = this.state, ink='#141414', red='#D6402C', mut='#8A8A82', line='#E4E1D8';
+    const janela = this.props.janelaRadar ?? 30;
+    const tabs = [
+      ['visao','Visão geral','', 'Painel','Visão geral'],
+      ['leads','Leads','9','Comercial','Pipeline e leads'],
+      ['clientes','Clientes','6','Carteira','Clientes e contratos'],
+      ['projetos','Projetos','3','Entrega','Projetos e sprints'],
+      ['tarefas','Tarefas','7','Execução','Tarefas e Google Calendar'],
+      ['financeiro','Financeiro','3','Dinheiro','Controle financeiro'],
+      ['analytics','Analytics','','Site público','Comportamento no site'],
+      ['propostas','Propostas','2','Comercial','Propostas e orçamentos'],
+      ['sistemas','Sistemas','1','Infra','Deploys, uptime e erros'],
+      ['config','Config do site','','Conteúdo','Configurações e conformidade']
+    ];
+    const atual = tabs.find(t => t[0] === S.tab) || tabs[0];
+    const nav = tabs.map(t => ({
+      label: t[1], badge: t[2], go: this.go(t[0]),
+      bg: S.tab===t[0] ? '#232320' : 'transparent',
+      fg: S.tab===t[0] ? '#FAFAF7' : '#B8B8B0',
+      bar: S.tab===t[0] ? red : 'transparent',
+      badgeBg: t[2] ? (S.tab===t[0] ? red : '#2C2C2A') : 'transparent',
+      badgeFg: t[2] ? '#FAFAF7' : 'transparent'
+    }));
+
+    const tag = (t, forte) => ({
+      tipo: t,
+      tagBg: forte ? red : 'transparent',
+      tagFg: forte ? '#FAFAF7' : '#5A5A54',
+      tagBd: forte ? red : line
+    });
+    const radar = [
+      { dia:'19 ago', ...tag('Cartão', true), txt:'Fatura do cartão PJ fecha', sub:'assinatura feita depois disso só cai no ciclo seguinte', dias:'em 2 dias', diasCor:red },
+      { dia:'21 ago', ...tag('Receber'), txt:'Clínica Vitalis · mensalidade R$ 1.900', sub:'boleto emitido, lembrete automático em 20/08', dias:'em 4 dias', diasCor:ink },
+      { dia:'25 ago', ...tag('Custo'), txt:'Meta WhatsApp Cloud API · R$ 412', sub:'débito automático · rateado entre 4 clientes', dias:'em 8 dias', diasCor:ink },
+      { dia:'28 ago', ...tag('Contrato', true), txt:'Ateliê Norte · renovação automática', sub:'reajuste de 8% precisa ser avisado até 21/08', dias:'em 11 dias', diasCor:red },
+      { dia:'01 set', ...tag('Domínio'), txt:'vitalis.com.br expira', sub:'renovação anual R$ 62 · auto-renew desligado', dias:'em 15 dias', diasCor:ink },
+      { dia:'05 set', ...tag('Receber'), txt:'Log Sul · parcela 3 de 6 · R$ 2.300', sub:'projeto fechado em 6x sem juros', dias:'em 19 dias', diasCor:ink },
+      { dia:'15 set', ...tag('Contrato', true), txt:'Casa Duarte · fim de contrato', sub:'sem renovação automática — decidir se propõe manutenção', dias:'em 29 dias', diasCor:red }
+    ];
+
+    const leads = [
+      { nome:'Ótica Belmiro', nicho:'Varejo', valor:'R$ 8.400', origem:'Instagram bio', temp:'Quente', age:'2 dias', col:0,
+        resumo:'Loja com duas unidades em Niterói. Quer parar de perder pedido no direct e organizar retirada em loja.',
+        campos:[{k:'Contato',v:'Marcos Belmiro · (21) 99xxx-4410'},{k:'Origem',v:'utm_source=instagram · bio'},{k:'Primeira visita',v:'15/08, 21h34'},{k:'Sessões',v:'3 · 11 min no total'},{k:'Interesse',v:'Card "Ecommerce"'},{k:'Valor estimado',v:'R$ 8.400 setup + R$ 690/mês'}],
+        trilha:[{h:'21:34',t:'Entrou pela bio do Instagram · celular',m:'sessão 1'},{h:'21:35',t:'Leu a seção Serviços até o fim',m:'1m 12s'},{h:'21:37',t:'Clicou no card Ecommerce',m:'niche_card_click'},{h:'21:41',t:'Voltou dois dias depois pelo mesmo link',m:'sessão 3'},{h:'21:43',t:'Abriu Cases e visitou um site entregue',m:'42s'},{h:'21:44',t:'Clicou em Falar no WhatsApp',m:'conversão'}],
+        leitura:'Três sessões antes de falar, todas à noite, sempre no card de Ecommerce. Abrir a conversa com o caso de recuperação de carrinho tende a encurtar o ciclo.' },
+      { nome:'Studio Kai', nicho:'Serviços', valor:'R$ 5.200', origem:'Busca orgânica', temp:'Morno', age:'6 dias', col:0,
+        resumo:'Estúdio de tatuagem, agenda no caderno. Precisa de agendamento e lembrete.',
+        campos:[{k:'Contato',v:'Kaio Ferraz · (21) 98xxx-2210'},{k:'Origem',v:'Google · "agendamento whatsapp"'},{k:'Primeira visita',v:'11/08, 13h02'},{k:'Sessões',v:'1 · 4 min'},{k:'Interesse',v:'Card "Serviços"'},{k:'Valor estimado',v:'R$ 5.200 setup'}],
+        trilha:[{h:'13:02',t:'Chegou por busca orgânica · desktop',m:'sessão 1'},{h:'13:03',t:'Rolou até Serviços',m:'58s'},{h:'13:05',t:'Buscou "integração com Google Agenda"',m:'search_term'},{h:'13:06',t:'Clicou em Falar no WhatsApp',m:'conversão'}],
+        leitura:'Buscou explicitamente por Google Agenda. Mostrar a integração já no diagnóstico responde a dúvida principal.' },
+      { nome:'Clínica Aurora', nicho:'Saúde', valor:'R$ 14.900', origem:'Indicação', temp:'Quente', age:'3 dias', col:1,
+        resumo:'Clínica com quatro profissionais. Recepção sobrecarregada com confirmação de consulta.',
+        campos:[{k:'Contato',v:'Dra. Renata Alcântara'},{k:'Origem',v:'Indicação · Clínica Vitalis'},{k:'Diagnóstico',v:'19/08, 10h'},{k:'Sessões',v:'2 · 9 min'},{k:'Interesse',v:'Card "Saúde"'},{k:'Valor estimado',v:'R$ 14.900 + R$ 1.200/mês'}],
+        trilha:[{h:'09:12',t:'Entrou por link direto enviado no WhatsApp',m:'sessão 1'},{h:'09:14',t:'Leu Sobre por 2m 40s',m:'maior tempo do mês'},{h:'09:18',t:'Abriu a página de Cases',m:'2 páginas'},{h:'09:21',t:'Clicou em Falar no WhatsApp',m:'conversão'}],
+        leitura:'Veio por indicação e gastou o tempo na página Sobre — decisão passa por confiança, não por preço. Levar contrato e política de dados já no diagnóstico.' },
+      { nome:'Log Sul Transportes', nicho:'Logística', valor:'R$ 22.000', origem:'LinkedIn', temp:'Quente', age:'9 dias', col:2,
+        resumo:'Proposta enviada de painel de rastreio + CRM interno.',
+        campos:[{k:'Contato',v:'Eduardo Prates · diretor'},{k:'Origem',v:'utm_source=linkedin'},{k:'Proposta',v:'#2026-041 · enviada 12/08'},{k:'Visualizações',v:'4 vezes, última ontem'},{k:'Interesse',v:'Integração com ERP'},{k:'Valor',v:'R$ 22.000 em 6x'}],
+        trilha:[{h:'—',t:'Proposta aberta 4 vezes',m:'última 16/08'},{h:'—',t:'Passou 6 min na página de escopo',m:'sinal forte'},{h:'—',t:'Encaminhou o link para outro e-mail',m:'sócio no processo'}],
+        leitura:'Proposta reaberta quatro vezes e compartilhada internamente. Follow-up com prazo de início costuma destravar nesse ponto.' },
+      { nome:'Ateliê Norte', nicho:'Ecommerce', valor:'R$ 9.800', origem:'Indicação', temp:'Frio', age:'21 dias', col:2,
+        resumo:'Proposta sem resposta há 12 dias.',
+        campos:[{k:'Contato',v:'Paula Antunes'},{k:'Origem',v:'Indicação'},{k:'Proposta',v:'#2026-038 · enviada 27/07'},{k:'Visualizações',v:'1 vez'},{k:'Interesse',v:'Loja + WhatsApp'},{k:'Valor',v:'R$ 9.800'}],
+        trilha:[{h:'—',t:'Abriu a proposta uma vez',m:'28/07'},{h:'—',t:'Sem retorno desde então',m:'12 dias'}],
+        leitura:'Uma única abertura e silêncio. Vale um último contato com escopo reduzido antes de arquivar.' },
+      { nome:'Padaria Vila Rica', nicho:'Varejo', valor:'R$ 6.300', origem:'Indicação', temp:'Fechando', age:'1 dia', col:3,
+        resumo:'Contrato enviado para assinatura, início previsto para 24/08.',
+        campos:[{k:'Contato',v:'Sérgio Lima'},{k:'Origem',v:'Indicação · Ótica Belmiro'},{k:'Contrato',v:'Enviado 16/08'},{k:'Início',v:'24/08'},{k:'Modelo',v:'Setup + mensalidade'},{k:'Valor',v:'R$ 6.300 + R$ 480/mês'}],
+        trilha:[{h:'—',t:'Contrato aberto e assinado digitalmente',m:'aguardando 2ª via'},{h:'—',t:'Grupo do WhatsApp ainda não criado',m:'pendência'}],
+        leitura:'Assim que a segunda assinatura entrar, a esteira de onboarding dispara sozinha.' }
+    ];
+    const nomesCol = ['Mensagem no WhatsApp','Análise','Proposta','Contrato'];
+    const colunas = nomesCol.map((nome, ci) => {
+      const cards = leads.map((l, i) => ({ l, i })).filter(x => x.l.col === ci).map(({l,i}) => ({
+        nome:l.nome, nicho:l.nicho, valor:l.valor, origem:l.origem, temp:l.temp, age:l.age,
+        ageCor: parseInt(l.age) > 7 ? red : mut,
+        bd: S.lead === i ? ink : line,
+        abrir: () => this.setState({ lead: i })
+      }));
+      const soma = leads.filter(l => l.col===ci).reduce((s,l)=> s + Number(l.valor.replace(/[^0-9]/g,'')), 0);
+      return { nome, qtd: cards.length + (cards.length===1?' lead':' leads'), valor: 'R$ ' + soma.toLocaleString('pt-BR'), cards, vazio: cards.length === 0 };
+    });
+
+    const marcar = k => ({ mark: S.feitas[k] ? '✓' : '', boxBg: S.feitas[k] ? ink : 'transparent' });
+    const tarefasBase = [
+      ['Ajustar webhook de pedido pago','Retorno 500 quando o pedido vem sem CPF','Ótica Belmiro','Rafael','hoje',true],
+      ['Escrever formulário de onboarding','Google Forms com escopo e acessos','Padaria Vila Rica','Sócio 2','amanhã',true],
+      ['Revisar reajuste do contrato','Avisar antes de 21/08 ou renova no valor antigo','Ateliê Norte','Rafael','21/08',true],
+      ['Migrar bot para n8n self-hosted','Corta R$ 132/mês de assinatura','Interno','Sócio 2','26/08',false],
+      ['Publicar página de Cases atualizada','Adicionar dois sites entregues','Automind','Rafael','27/08',true],
+      ['Configurar backup semanal','Supabase → storage externo','Clínica Vitalis','Sócio 2','29/08',true],
+      ['Follow-up da proposta #2026-041','Reaberta 4 vezes sem resposta','Log Sul','Rafael','hoje',true]
+    ];
+    const tarefas = tarefasBase.map((t, i) => {
+      const feita = !!S.feitas['t'+i];
+      return { t:t[0], d:t[1], cliente:t[2], dono:t[3], prazo:t[4],
+        prazoCor: t[4]==='hoje' ? red : ink,
+        cal: t[5] ? 'no calendar' : 'sem evento',
+        calCor: t[5] ? ink : mut,
+        risco: feita ? 'line-through' : 'none',
+        cor: feita ? mut : ink,
+        mark: feita ? '✓' : '', boxBg: feita ? ink : 'transparent',
+        toggle: () => this.setState(s => ({ feitas: Object.assign({}, s.feitas, { ['t'+i]: !s.feitas['t'+i] }) }))
+      };
+    });
+
+    const blocos = {
+      '0-0':['Foco · Ótica',ink],'0-2':['Vitalis',red],'1-0':['Foco · Log Sul',ink],'1-1':['Diagnóstico Aurora',red],
+      '2-1':['Foco · bot',ink],'3-0':['Manutenção',line],'3-2':['Foco · Vila Rica',ink],'4-1':['Retrospectiva',red],'4-3':['Financeiro',line]
+    };
+    const grade = [];
+    ['09h','11h','14h','16h','18h'].forEach((h, li) => {
+      grade.push({ t:h, bg:'transparent', fg:mut, w:'500' });
+      for (let d = 0; d < 5; d++) {
+        const b = blocos[d+'-'+li];
+        grade.push(b ? { t:b[0], bg:b[1], fg: b[1]===line ? '#5A5A54' : '#FAFAF7', w:'600' } : { t:'', bg:'transparent', fg:mut, w:'400' });
+      }
+    });
+
+    const cli = (nome,nicho,desde,plano,mrr,custo,margem,pgto,renov,renovAlerta,saude,alerta) => ({
+      nome,nicho,desde,plano,mrr,custo,margem,pgto,renov,
+      margemCor: parseInt(margem) < 55 ? red : ink,
+      renovCor: renovAlerta ? red : ink,
+      saude,
+      sBg: alerta ? red : 'transparent', sFg: alerta ? '#FAFAF7' : '#5A5A54', sBd: alerta ? red : line
+    });
+
+    const contas = [
+      { nome:'Automind', email:'atendimento@automindsolution.com.br', iniciais:'AT', permitido:true, rotulo:'Autorizada', selo:mut, avBg:red }
+    ].map(c => Object.assign({}, c, { entrar: this.escolher(c) }));
+    const logado = S.logado || (this.props.iniciarLogado ?? false);
+    const usuario = S.usuario || { nome:'Automind', email:'atendimento@automindsolution.com.br', iniciais:'AT' };
+
+    const dados = {
+      logado, deslogado: !logado, contas, usuario,
+      faseInicio: S.fase === 'inicio', faseContas: S.fase === 'contas',
+      faseEntrando: S.fase === 'entrando', faseNegado: S.fase === 'negado',
+      contaEscolhida: S.tentativa,
+      abrirContas: () => this.setState({ fase: 'contas' }),
+      voltar: () => this.setState({ fase: 'contas', tentativa: '' }),
+      outraConta: () => this.setState({ fase: 'negado', tentativa: 'Esta conta Google' }),
+      sair: () => this.setState({ logado: false, usuario: null, fase: 'inicio', tentativa: '', tab: 'visao' }),
+      seguranca: [
+        'Login só por conta Google — nenhuma senha é guardada pela Automind.',
+        'Por enquanto, apenas atendimento@automindsolution.com.br tem acesso liberado.',
+        'Sessão de 8 horas, revogada junto com a conta Google se o acesso for removido.',
+        'Cada entrada, edição e exportação fica no log de auditoria com autor e horário.'
+      ],
+      pageKicker: atual[3], pageTitle: atual[4], nav, janela,
+      isVisao:S.tab==='visao', isLeads:S.tab==='leads', isClientes:S.tab==='clientes', isProjetos:S.tab==='projetos',
+      isTarefas:S.tab==='tarefas', isFinanceiro:S.tab==='financeiro', isAnalytics:S.tab==='analytics',
+      isPropostas:S.tab==='propostas', isSistemas:S.tab==='sistemas', isConfig:S.tab==='config',
+      mostrarInstrumentacao: this.props.mostrarInstrumentacao ?? true,
+      abrirNovo: () => this.setState({ tab: 'leads' }),
+
+      kpis: [
+        { label:'MRR', valor:'R$ 18.400', delta:'+ R$ 1.900 vs. julho', deltaCor:ink },
+        { label:'A receber em 30 dias', valor:'R$ 27.900', delta:'6 cobranças · 1 em atraso', deltaCor:red },
+        { label:'Custo fixo do mês', valor:'R$ 3.870', delta:'21% da receita', deltaCor:mut },
+        { label:'Leads abertos', valor:'9', delta:'2 sem resposta há 5 dias', deltaCor:red },
+        { label:'Horas na semana', valor:'62 / 80', delta:'Rafael 34h · Sócio 2 28h', deltaCor:mut }
+      ],
+      radar,
+      hoje: [
+        { hora:'09:00', t:'Bloco de foco · webhook Ótica Belmiro', d:'2h reservadas · Rafael', tipo:'Calendar', bg:'#FFF' },
+        { hora:'11:30', t:'Diagnóstico Clínica Aurora', d:'Meet · levar política de dados', tipo:'Reunião', bg:'#FFF' },
+        { hora:'14:00', t:'Follow-up proposta Log Sul', d:'reaberta 4 vezes desde ontem', tipo:'Tarefa', bg:'#F2F1EC' },
+        { hora:'17:00', t:'Fechar lançamentos da semana', d:'3 notas para anexar', tipo:'Tarefa', bg:'#F2F1EC' },
+        { hora:'19:00', t:'Janela de pico de contatos', d:'resposta automática ativa até 22h', tipo:'Automação', bg:'#F2F1EC' }
+      ],
+      alertas: [
+        { t:'Bot de agendamento da Vitalis falhou 3 vezes', d:'timeout na API do Calendar · virou tarefa automática', quando:'há 2h', cor:red },
+        { t:'Auto-renovação do domínio vitalis.com.br está desligada', d:'expira em 15 dias', quando:'hoje', cor:red },
+        { t:'Ateliê Norte não abre a proposta há 12 dias', d:'sugerido escopo reduzido', quando:'ontem', cor:ink }
+      ],
+      sinais: [
+        { v:'214', t:'Sessões', ev:'page_view' },
+        { v:'38%', t:'Chegaram aos Serviços', ev:'section_view' },
+        { v:'27', t:'Cliques em nicho', ev:'niche_card_click' },
+        { v:'9', t:'Cliques no WhatsApp', ev:'whatsapp_click' },
+        { v:'4', t:'Leads novos', ev:'lead_captured' },
+        { v:'1m 48s', t:'Tempo médio', ev:'engaged_time' }
+      ],
+
+      cicloMedio:'14 dias', conversao:'31%',
+      syncCalendar:'Última sincronização em 17/08 às 08:12 · 3 calendários conectados · conflito de horário é bloqueado antes de salvar.',
+      filtrosLead: ['Todos','Quentes','Sem resposta 5+ dias','Por nicho','Por origem'],
+      colunas,
+      lead: leads[S.lead] || leads[0],
+      onboarding: [
+        { n:'1', t:'Grupo no WhatsApp', d:'Cliente + os dois sócios, nome padronizado', meta:'Modelo pronto · 5 min', ...marcar('o0') },
+        { n:'2', t:'Formulário de escopo', d:'Acessos, textos, logo, integrações desejadas', meta:'Link automático no grupo', ...marcar('o1') },
+        { n:'3', t:'Protótipo navegável', d:'Aprovação antes de qualquer linha de produção', meta:'Prazo alvo: 7 dias', ...marcar('o2') },
+        { n:'4', t:'Entrega e treinamento', d:'Deploy, checklist, vídeo curto de uso', meta:'Ativa a mensalidade', ...marcar('o3') }
+      ],
+
+      clientes: [
+        cli('Clínica Vitalis','Saúde','mar/26','Site + CRM + bot','R$ 1.900','R$ 186','90%','dia 21','renova 12/03', false,'Saudável', false),
+        cli('Ótica Belmiro','Varejo','jun/26','Ecommerce + WhatsApp','R$ 690','R$ 142','79%','dia 05','renova 12/06', false,'Saudável', false),
+        cli('Ateliê Norte','Ecommerce','ago/25','Manutenção','R$ 540','R$ 118','78%','dia 28','renova 28/08', true,'Decidir reajuste', true),
+        cli('Log Sul','Logística','—','Projeto em 6x','R$ 0','R$ 96','—','parcela 3/6','fim 12/11', false,'Em implantação', false),
+        cli('Casa Duarte','Serviços','set/25','Manutenção leve','R$ 380','R$ 210','45%','dia 10','fim 15/09', true,'Margem baixa', true),
+        cli('Padaria Vila Rica','Varejo','ago/26','Setup + mensalidade','R$ 480','R$ 88','82%','dia 24','inicia 24/08', false,'Onboarding', false)
+      ],
+      contratos: [
+        { t:'Ateliê Norte · reajuste de 8%', d:'Renovação automática em 28/08. O aviso precisa sair até 21/08.', acao:'Ação: enviar carta de reajuste e registrar o aceite no grupo.' },
+        { t:'Casa Duarte · margem em 45%', d:'Custo de API subiu 40% e o valor não foi corrigido desde set/25.', acao:'Ação: propor plano novo ou encerrar em 15/09.' },
+        { t:'Clínica Vitalis · aditivo de dados', d:'Trata dado sensível de paciente e o contrato ainda não tem cláusula de operador.', acao:'Ação: anexar termo de tratamento antes da próxima renovação.' }
+      ],
+      docs: [
+        { tipo:'CONTRATO', nome:'Vitalis · contrato assinado.pdf', meta:'mar/26 · 2 vias' },
+        { tipo:'NF', nome:'NF 0142 · Ótica Belmiro.pdf', meta:'ago/26 · R$ 690' },
+        { tipo:'ESCOPO', nome:'Log Sul · escopo aprovado.pdf', meta:'jul/26 · v3' }
+      ],
+
+      projetos: [
+        { nome:'Log Sul · painel de rastreio', escopo:'Painel interno + CRM + integração com ERP', status:'Em produção', stBg:ink, stFg:'#FAFAF7', sprint:'Sprint 4 de 6', pct:62,
+          horas:'88h de 120h', horasCor:ink, vh:'R$ 250/h', prazo:'12/11', ultimoDeploy:'16/08 · staging',
+          itens:[{t:'Autenticação por perfil',...marcar('p00'),dono:'RF',cor:mut},{t:'Importador de rotas (CSV)',...marcar('p01'),dono:'S2',cor:ink},{t:'Webhook do ERP',...marcar('p02'),dono:'RF',cor:ink},{t:'Relatório de entregas',...marcar('p03'),dono:'S2',cor:ink}],
+          deploy:[{t:'Variáveis no ambiente de produção',...marcar('d00'),cor:mut},{t:'Backup automático configurado',...marcar('d01'),cor:mut},{t:'Domínio e SSL',...marcar('d02'),cor:ink},{t:'Monitor de uptime',...marcar('d03'),cor:ink},{t:'Termo de dados assinado',...marcar('d04'),cor:ink}] },
+        { nome:'Clínica Aurora · agendamento', escopo:'Bot de triagem, confirmação e lembrete', status:'Protótipo', stBg:red, stFg:'#FAFAF7', sprint:'Sprint 1 de 3', pct:24,
+          horas:'14h de 60h', horasCor:ink, vh:'R$ 248/h', prazo:'30/09', ultimoDeploy:'—',
+          itens:[{t:'Fluxo de triagem aprovado',...marcar('p10'),dono:'RF',cor:mut},{t:'Protótipo navegável',...marcar('p11'),dono:'RF',cor:ink},{t:'Integração Google Calendar',...marcar('p12'),dono:'S2',cor:ink},{t:'Política de dados sensíveis',...marcar('p13'),dono:'S2',cor:ink}],
+          deploy:[{t:'Ambiente de staging',...marcar('d10'),cor:ink},{t:'Consentimento no primeiro contato',...marcar('d11'),cor:ink},{t:'Retenção de 12 meses definida',...marcar('d12'),cor:ink},{t:'Teste de carga do bot',...marcar('d13'),cor:ink},{t:'Treinamento da recepção',...marcar('d14'),cor:ink}] },
+        { nome:'Ótica Belmiro · recuperação de carrinho', escopo:'Loja + disparo no WhatsApp + CRM', status:'Ajustes', stBg:'#E4E1D8', stFg:ink, sprint:'Pós-entrega', pct:91,
+          horas:'52h de 48h', horasCor:red, vh:'R$ 161/h', prazo:'entregue 02/08', ultimoDeploy:'17/08 · produção',
+          itens:[{t:'Correção do webhook sem CPF',...marcar('p20'),dono:'RF',cor:ink},{t:'Relatório de recompra',...marcar('p21'),dono:'S2',cor:ink},{t:'Treinamento da equipe',...marcar('p22'),dono:'RF',cor:mut},{t:'Encerrar sprint e cobrar extras',...marcar('p23'),dono:'S2',cor:ink}],
+          deploy:[{t:'Rollback testado',...marcar('d20'),cor:mut},{t:'Logs enviados ao painel',...marcar('d21'),cor:mut},{t:'Alerta de erro no WhatsApp',...marcar('d22'),cor:mut},{t:'Documentação entregue',...marcar('d23'),cor:ink},{t:'Horas extras aprovadas',...marcar('d24'),cor:red}] }
+      ],
+
+      dias: [{l:'Seg 17',bg:'#F2F1EC'},{l:'Ter 18',bg:'transparent'},{l:'Qua 19',bg:'transparent'},{l:'Qui 20',bg:'transparent'},{l:'Sex 21',bg:'transparent'}],
+      grade, tarefas,
+
+      finKpis: [
+        { label:'Receita do mês', valor:'R$ 24.700', sub:'recorrente R$ 18.400 + pontual' },
+        { label:'Custos', valor:'R$ 3.870', sub:'assinaturas, hospedagem e impostos' },
+        { label:'Pró-labore', valor:'R$ 9.000', sub:'R$ 4.500 por sócio' },
+        { label:'Resultado', valor:'R$ 11.830', sub:'margem operacional 48%' },
+        { label:'Reserva', valor:'2,4 meses', sub:'meta: 4 meses de custo fixo' }
+      ],
+      ciclo: { titulo:'Fatura fecha dia 19 · vence dia 26', usado:'R$ 1.498', pct:60, teto:'R$ 2.500', dias:'fecha em 2 dias', janela:'20 a 25 de agosto',
+        janelaTxt:'Assinando nessa janela, a primeira cobrança só entra na fatura que vence em 26/09 — 36 dias de folga de caixa. Fora dela, cai na fatura que vence agora.' },
+      assinaturas: [
+        { nome:'Meta WhatsApp Cloud API', rateio:'rateado entre 4 clientes', custo:'R$ 412', dia:'25', uso:'Alto', usoBg:'transparent', usoFg:'#5A5A54', usoBd:line },
+        { nome:'OpenAI API', rateio:'triagem de 2 bots', custo:'R$ 318', dia:'03', uso:'Alto', usoBg:'transparent', usoFg:'#5A5A54', usoBd:line },
+        { nome:'n8n Cloud', rateio:'todas as automações', custo:'R$ 132', dia:'22', uso:'Alto', usoBg:'transparent', usoFg:'#5A5A54', usoBd:line },
+        { nome:'Supabase Pro', rateio:'3 projetos', custo:'R$ 132', dia:'10', uso:'Médio', usoBg:'transparent', usoFg:'#5A5A54', usoBd:line },
+        { nome:'Vercel Pro', rateio:'5 sites', custo:'R$ 110', dia:'10', uso:'Médio', usoBg:'transparent', usoFg:'#5A5A54', usoBd:line },
+        { nome:'Figma Pro', rateio:'2 assentos · 1 sem uso há 38 dias', custo:'R$ 168', dia:'14', uso:'Ocioso', usoBg:red, usoFg:'#FAFAF7', usoBd:red },
+        { nome:'Zapier (legado)', rateio:'nenhuma execução há 41 dias', custo:'R$ 74', dia:'08', uso:'Cancelar', usoBg:red, usoFg:'#FAFAF7', usoBd:red },
+        { nome:'Google Workspace', rateio:'2 contas', custo:'R$ 96', dia:'06', uso:'Alto', usoBg:'transparent', usoFg:'#5A5A54', usoBd:line }
+      ],
+      insights: [
+        { tag:'Timing', t:'Espere 3 dias para assinar', d:'Duas ferramentas foram assinadas no dia 18 nos últimos meses — véspera do fechamento. Cada uma antecipou o desembolso em quase um mês.', impacto:'Ganho: 36 dias de caixa por assinatura' },
+        { tag:'Ocioso', t:'R$ 242/mês sem uso', d:'Figma com um assento parado há 38 dias e Zapier sem nenhuma execução desde julho — o fluxo já migrou para o n8n.', impacto:'Economia: R$ 2.904 por ano' },
+        { tag:'Rateio', t:'Custo real por cliente', d:'Vitalis consome R$ 186/mês em API e hospedagem para R$ 1.900 de mensalidade. Casa Duarte consome R$ 210 para R$ 380.', impacto:'Casa Duarte: margem 45%, abaixo do piso de 60%' },
+        { tag:'Concentração', t:'58% da receita em 2 clientes', d:'Vitalis e Ótica respondem por mais da metade do recorrente. Perder um derruba o mês.', impacto:'Meta: nenhum cliente acima de 30%' }
+      ],
+      receber: [
+        { cliente:'Clínica Vitalis', tipo:'Mensalidade', venc:'21/08', cor:ink, valor:'R$ 1.900' },
+        { cliente:'Padaria Vila Rica', tipo:'Setup 1/2', venc:'24/08', cor:ink, valor:'R$ 3.150' },
+        { cliente:'Ateliê Norte', tipo:'Manutenção', venc:'28/08', cor:ink, valor:'R$ 540' },
+        { cliente:'Log Sul', tipo:'Parcela 3/6', venc:'05/09', cor:ink, valor:'R$ 2.300' },
+        { cliente:'Casa Duarte', tipo:'Manutenção', venc:'vencido 10/08', cor:red, valor:'R$ 380' },
+        { cliente:'Ótica Belmiro', tipo:'Mensalidade + extras', venc:'05/09', cor:ink, valor:'R$ 1.410' }
+      ],
+      pagar: [
+        { cliente:'OpenAI API', tipo:'Assinatura · cartão', venc:'03/09', cor:ink, valor:'R$ 318' },
+        { cliente:'Google Workspace', tipo:'Assinatura · cartão', venc:'06/09', cor:ink, valor:'R$ 96' },
+        { cliente:'Vercel + Supabase', tipo:'Assinatura · cartão', venc:'10/09', cor:ink, valor:'R$ 242' },
+        { cliente:'Simples Nacional', tipo:'DAS · boleto', venc:'20/08', cor:red, valor:'R$ 1.284' },
+        { cliente:'Meta WhatsApp API', tipo:'Uso · débito', venc:'25/08', cor:ink, valor:'R$ 412' },
+        { cliente:'Domínio vitalis.com.br', tipo:'Renovação anual', venc:'01/09', cor:red, valor:'R$ 62' }
+      ],
+
+      funil: [
+        { etapa:'Sessões no site', ev:'page_view', n:'1.842', taxa:'100%', pct:100, cor:ink },
+        { etapa:'Rolaram até Serviços', ev:'section_view', n:'694', taxa:'38%', pct:38, cor:ink },
+        { etapa:'Clicaram em um nicho', ev:'niche_card_click', n:'243', taxa:'13%', pct:26, cor:ink },
+        { etapa:'Clicaram no WhatsApp', ev:'whatsapp_click', n:'71', taxa:'3,9%', pct:16, cor:red },
+        { etapa:'Viraram lead qualificado', ev:'lead_captured', n:'22', taxa:'1,2%', pct:9, cor:red }
+      ],
+      origens: [
+        { src:'instagram / bio', sessoes:'612', leads:'26', conv:'4,2%', cor:ink },
+        { src:'google / orgânico', sessoes:'548', leads:'19', conv:'3,5%', cor:ink },
+        { src:'indicação / direto', sessoes:'331', leads:'18', conv:'5,4%', cor:red },
+        { src:'linkedin / post', sessoes:'214', leads:'6', conv:'2,8%', cor:ink },
+        { src:'whatsapp / status', sessoes:'137', leads:'2', conv:'1,5%', cor:'#8A8A82' }
+      ],
+      nichos: [
+        { t:'Ecommerce', v:'118 cliques', pct:100, nota:'melhor conversão em leads · 6,1%' },
+        { t:'Serviços', v:'79 cliques', pct:67, nota:'muitos cliques, poucos contatos' },
+        { t:'Saúde', v:'46 cliques', pct:39, nota:'ticket médio mais alto da carteira' }
+      ],
+      secoes: [
+        { t:'Hero (rede 3D)', tempo:'11s', alcance:'100%', cor:ink },
+        { t:'Serviços por nicho', tempo:'34s', alcance:'38%', cor:ink },
+        { t:'Cases', tempo:'22s', alcance:'26%', cor:ink },
+        { t:'Sobre', tempo:'41s', alcance:'19%', cor:red },
+        { t:'Contato', tempo:'18s', alcance:'14%', cor:ink },
+        { t:'Rodapé', tempo:'6s', alcance:'11%', cor:'#8A8A82' }
+      ],
+      termos: [
+        { t:'integração com Bling', n:'3' },{ t:'quanto custa', n:'7' },{ t:'agendamento whatsapp', n:'5' },
+        { t:'chatbot clínica', n:'4' },{ t:'crm barato', n:'3' },{ t:'automação instagram', n:'2' },
+        { t:'site + whatsapp', n:'6' },{ t:'prazo de entrega', n:'4' }
+      ],
+      contexto: [
+        { k:'Celular', v:'78%' },{ k:'Desktop', v:'21%' },{ k:'Rio de Janeiro', v:'54%' },
+        { k:'São Paulo', v:'18%' },{ k:'Outras', v:'28%' },{ k:'Visitante recorrente', v:'31%' }
+      ],
+      horas: [
+        { h:'8', pct:18, cor:'#E4E1D8' },{ h:'10', pct:31, cor:'#E4E1D8' },{ h:'12', pct:24, cor:'#E4E1D8' },
+        { h:'14', pct:38, cor:'#E4E1D8' },{ h:'16', pct:44, cor:'#E4E1D8' },{ h:'18', pct:62, cor:ink },
+        { h:'19', pct:88, cor:red },{ h:'20', pct:100, cor:red },{ h:'21', pct:81, cor:red },{ h:'22', pct:47, cor:ink }
+      ],
+      eventos: [
+        { nome:'session_start', oque:'Abre a sessão e guarda origem', gatilho:'primeira visita à página', payload:'utm_source, utm_medium, referrer, device, cidade (por IP truncado)' },
+        { nome:'section_view', oque:'Seção ficou visível por 2s', gatilho:'IntersectionObserver a 50%', payload:'section_id, tempo_visivel' },
+        { nome:'niche_card_click', oque:'Interesse declarado por nicho', gatilho:'clique no card Ecommerce/Saúde/Serviços', payload:'nicho, posição, sessão' },
+        { nome:'cta_click', oque:'Clique em CTA sem converter', gatilho:'todo botão primário', payload:'cta_id, página, scroll no momento' },
+        { nome:'whatsapp_click', oque:'Conversão · leva o contexto junto', gatilho:'clique no botão de WhatsApp', payload:'ref curto na mensagem pré-preenchida (ex.: ?ref=ecom-21h)' },
+        { nome:'search_term', oque:'O que a pessoa procurou', gatilho:'busca do site ou chat', payload:'termo normalizado, sem dado pessoal' },
+        { nome:'scroll_depth', oque:'Até onde a página foi lida', gatilho:'25 / 50 / 75 / 100%', payload:'profundidade, tempo até chegar' },
+        { nome:'return_visit', oque:'Visitante que já esteve aqui', gatilho:'id anônimo em cookie próprio', payload:'nº de sessões, dias desde a primeira' }
+      ],
+      boasPraticas: [
+        { t:'Consentimento antes de tudo', d:'Nada além de contagem agregada dispara sem o aceite do banner. Sem aceite, o painel recebe só o total de sessões.' },
+        { t:'Nenhum dado pessoal no navegador', d:'Telefone, nome e e-mail nunca entram em localStorage. A sessão anônima só é ligada ao contato no servidor, no clique do WhatsApp.' },
+        { t:'Retenção de 12 meses', d:'Evento bruto é apagado depois de um ano; o painel guarda apenas o agregado. Exclusão a pedido em até 15 dias.' },
+        { t:'Primeira parte, sem terceiros', d:'Cookie próprio e endpoint próprio. Sem pixel de terceiro carregado antes do consentimento e IP sempre truncado.' }
+      ],
+
+      propostas: [
+        { cliente:'Log Sul Transportes', escopo:'Painel de rastreio + CRM', modelo:'Projeto em 6x', valor:'R$ 22.000', validade:'vence em 3 dias', valCor:red, status:'Em análise', stBg:'transparent', stFg:'#5A5A54', stBd:line, visu:'aberta 4×' },
+        { cliente:'Ateliê Norte', escopo:'Loja + WhatsApp', modelo:'Setup + mensal', valor:'R$ 9.800', validade:'vencida 10/08', valCor:red, status:'Sem resposta', stBg:red, stFg:'#FAFAF7', stBd:red, visu:'aberta 1×' },
+        { cliente:'Clínica Aurora', escopo:'Agendamento e triagem', modelo:'Setup + mensal', valor:'R$ 14.900', validade:'em rascunho', valCor:'#8A8A82', status:'Rascunho', stBg:'transparent', stFg:'#5A5A54', stBd:line, visu:'—' },
+        { cliente:'Padaria Vila Rica', escopo:'Site + pedidos', modelo:'Setup + mensal', valor:'R$ 6.300', validade:'aceita 16/08', valCor:ink, status:'Aceita', stBg:ink, stFg:'#FAFAF7', stBd:ink, visu:'aberta 3×' },
+        { cliente:'Studio Kai', escopo:'Agendamento simples', modelo:'Setup único', valor:'R$ 5.200', validade:'vence em 9 dias', valCor:ink, status:'Enviada', stBg:'transparent', stFg:'#5A5A54', stBd:line, visu:'aberta 2×' }
+      ],
+      calc: [
+        { k:'Horas estimadas · 60h a R$ 180', v:'R$ 10.800', cor:ink, peso:'400' },
+        { k:'APIs no primeiro ano', v:'R$ 1.980', cor:ink, peso:'400' },
+        { k:'Hospedagem e domínio', v:'R$ 720', cor:ink, peso:'400' },
+        { k:'Reserva de retrabalho · 15%', v:'R$ 1.965', cor:ink, peso:'400' },
+        { k:'Custo total', v:'R$ 15.465', cor:'#5A5A54', peso:'600' },
+        { k:'Preço sugerido · margem 62%', v:'R$ 22.000', cor:red, peso:'600' }
+      ],
+      faixas: [
+        { faixa:'até R$ 6 mil', taxa:'64%', pct:64, n:'11 propostas' },
+        { faixa:'R$ 6 a 12 mil', taxa:'41%', pct:41, n:'17 propostas' },
+        { faixa:'R$ 12 a 20 mil', taxa:'28%', pct:28, n:'7 propostas' },
+        { faixa:'acima de R$ 20 mil', taxa:'22%', pct:22, n:'4 propostas' }
+      ],
+
+      sistemas: [
+        { nome:'automindsolution.com', url:'site institucional · Vercel', uptime:'100%', resp:'182ms', deploy:'17/08', cor:ink, nota:'Sem incidentes em 30 dias', notaCor:mut },
+        { nome:'vitalis.com.br', url:'site + área do paciente', uptime:'99,94%', resp:'310ms', deploy:'02/08', cor:ink, nota:'Domínio expira em 15 dias · auto-renew off', notaCor:red },
+        { nome:'Bot Vitalis · agendamento', url:'n8n · webhook Calendar', uptime:'98,7%', resp:'1,4s', deploy:'11/08', cor:red, nota:'3 timeouts hoje · tarefa criada', notaCor:red },
+        { nome:'oticabelmiro.com.br', url:'loja + recuperação de carrinho', uptime:'99,99%', resp:'240ms', deploy:'17/08', cor:ink, nota:'Webhook corrigido às 09:40', notaCor:mut },
+        { nome:'Bot Ótica · carrinho', url:'n8n · WhatsApp Cloud', uptime:'99,2%', resp:'890ms', deploy:'17/08', cor:ink, nota:'41 disparos hoje · 6 recuperações', notaCor:mut },
+        { nome:'Log Sul · staging', url:'ambiente de homologação', uptime:'—', resp:'—', deploy:'16/08', cor:'#8A8A82', nota:'Não monitorado (staging)', notaCor:mut }
+      ],
+      logs: [
+        { quando:'hoje 09:38', nivel:'ERRO', nivelCor:red, msg:'Timeout ao criar evento no Google Calendar', origem:'bot-vitalis · fluxo agendar', qtd:'3×' },
+        { quando:'hoje 09:12', nivel:'ERRO', nivelCor:red, msg:'Pedido sem CPF quebrou o webhook de pagamento', origem:'otica-belmiro · webhook/pedido', qtd:'1×' },
+        { quando:'ontem 22:04', nivel:'AVISO', nivelCor:ink, msg:'Limite de mensagens do WhatsApp em 80% da janela', origem:'meta-cloud-api', qtd:'1×' },
+        { quando:'ontem 18:30', nivel:'AVISO', nivelCor:ink, msg:'Resposta do OpenAI acima de 6s', origem:'bot-vitalis · triagem', qtd:'12×' },
+        { quando:'15/08 11:20', nivel:'ERRO', nivelCor:red, msg:'Falha de autenticação no ERP (token expirado)', origem:'log-sul · sync-rotas', qtd:'2×' },
+        { quando:'14/08 03:00', nivel:'INFO', nivelCor:mut, msg:'Backup semanal concluído', origem:'supabase · 3 projetos', qtd:'1×' }
+      ],
+      vars: [
+        { chave:'META_WA_TOKEN', onde:'Vitalis · cofre 1Password', exp:'expira 12/09', cor:red },
+        { chave:'GOOGLE_CAL_SA', onde:'Vitalis · conta de serviço', exp:'sem prazo', cor:'#5A5A54' },
+        { chave:'OPENAI_KEY', onde:'Compartilhada · estúdio', exp:'rotacionar', cor:red },
+        { chave:'SUPABASE_SERVICE', onde:'Log Sul · cofre', exp:'sem prazo', cor:'#5A5A54' },
+        { chave:'ERP_CLIENT_SECRET', onde:'Log Sul · cliente fornece', exp:'expira 30/09', cor:'#5A5A54' },
+        { chave:'BLING_API', onde:'Ótica · cofre', exp:'sem prazo', cor:'#5A5A54' }
+      ],
+      campos: [
+        { k:'Número do WhatsApp', v:'+55 21 99999-0000', nota:'usado em todos os botões do site' },
+        { k:'Título do hero', v:'A rede Automind', nota:'aparece na primeira dobra' },
+        { k:'Horário de atendimento', v:'Segunda a sexta, 9h às 18h', nota:'controla a resposta automática fora do horário' },
+        { k:'E-mail de contato', v:'contato@automindsolution.com.br', nota:'recebe cópia de cada lead' },
+        { k:'Mensagem pré-preenchida do WhatsApp', v:'Oi! Vim pelo site e quero entender como automatizar meu atendimento.', nota:'o ref do nicho é anexado automaticamente' }
+      ],
+      switches: [
+        { t:'Banner de consentimento', d:'Bloqueia qualquer evento até o aceite', base:'Consentimento', k:'s0' },
+        { t:'Origem do lead (UTM e referrer)', d:'Guarda de onde veio a sessão', base:'Legítimo interesse', k:'s1' },
+        { t:'Mapa de rolagem e tempo por seção', d:'Agregado, sem identificação individual', base:'Consentimento', k:'s2' },
+        { t:'Gravação de sessão', d:'Desligado por padrão — captura tela inteira', base:'Consentimento', k:'s3' },
+        { t:'Termos digitados na busca', d:'Normalizados, sem dado pessoal', base:'Legítimo interesse', k:'s4' },
+        { t:'Vínculo sessão ↔ contato no WhatsApp', d:'Só no servidor, no momento do clique', base:'Execução de contrato', k:'s5' }
+      ].map(s => ({
+        t:s.t, d:s.d, base:s.base,
+        trilhoBg: S.sw[s.k] ? red : 'transparent',
+        knob: S.sw[s.k] ? '#FAFAF7' : ink,
+        just: S.sw[s.k] ? 'flex-end' : 'flex-start',
+        toggle: () => this.setState(st => ({ sw: Object.assign({}, st.sw, { [s.k]: !st.sw[s.k] }) }))
+      })),
+      regras: [
+        'Acesso ao painel só com 2FA e sessão de 8 horas; toda edição fica no log de auditoria com autor e horário.',
+        'Nenhuma senha ou chave de API é armazenada aqui — o painel guarda apenas a referência ao cofre e a data de expiração.',
+        'Evento bruto de navegação é apagado após 12 meses; o histórico agregado permanece.',
+        'Pedido de exclusão de dados do titular é atendido em até 15 dias e registrado no cadastro do cliente.',
+        'Dado sensível de saúde só é tratado sob contrato de operador assinado, com base legal registrada no cliente.'
+      ]
+    };
+
+    const out = (this.props.dadosDemo ?? false) ? dados : this.limpar(dados);
+    out.temLead = !!out.lead;
+    out.lead = out.lead || { nome:'', resumo:'', campos:[], trilha:[], leitura:'' };
+    const n = k => !(out[k] || []).length;
+    out.sem = {
+      radar:n('radar'), hoje:n('hoje'), alertas:n('alertas'), clientes:n('clientes'), contratos:n('contratos'),
+      projetos:n('projetos'), tarefas:n('tarefas'), assinaturas:n('assinaturas'), insights:n('insights'),
+      receber:n('receber'), pagar:n('pagar'), origens:n('origens'), nichos:n('nichos'), secoes:n('secoes'),
+      termos:n('termos'), contexto:n('contexto'), propostas:n('propostas'), faixas:n('faixas'),
+      sistemas:n('sistemas'), logs:n('logs'), vars:n('vars'), funil: out.funil.every(x => x.n === '0')
+    };
+    return out;
+  }
+
+  limpar(d){
+    const mut = '#8A8A82', ink = '#141414';
+    return Object.assign({}, d, {
+      nav: d.nav.map(x => Object.assign({}, x, { badge:'', badgeBg:'transparent', badgeFg:'transparent' })),
+      kpis: d.kpis.map(k => ({ label:k.label, valor:'—', delta:'sem dados ainda', deltaCor:mut })),
+      radar: [], hoje: [], alertas: [],
+      sinais: d.sinais.map(s => ({ v:'—', t:s.t, ev:s.ev })),
+      colunas: d.colunas.map(c => Object.assign({}, c, { cards:[], qtd:'0 leads', valor:'R$ 0', vazio:true })),
+      lead: null, cicloMedio:'—', conversao:'—',
+      syncCalendar:'Nenhum calendário conectado ainda — conecte a conta Google para que cada tarefa vire evento.',
+      clientes: [], contratos: [], docs: [], projetos: [], tarefas: [],
+      grade: d.grade.map(g => g.w === '500' ? g : { t:'', bg:'transparent', fg:mut, w:'400' }),
+      finKpis: d.finKpis.map(k => ({ label:k.label, valor:'—', sub:'aguardando lançamentos' })),
+      ciclo: { titulo:'Cadastre o fechamento do cartão', usado:'R$ 0', pct:0, teto:'—', dias:'—', janela:'—',
+        janelaTxt:'Informe o dia de fechamento e o de vencimento da fatura: o painel passa a calcular a melhor janela para assinar uma ferramenta nova.' },
+      assinaturas: [], insights: [], receber: [], pagar: [],
+      funil: d.funil.map(x => ({ etapa:x.etapa, ev:x.ev, n:'0', taxa:'—', pct:0, cor:'#E4E1D8' })),
+      origens: [], nichos: [], secoes: [], termos: [], contexto: [], horas: [],
+      propostas: [], faixas: [], calc: d.calc.map(c => ({ k:c.k, v:'—', cor:ink, peso:c.peso })),
+      sistemas: [], logs: [], vars: []
+    });
+  }
+}
+</script>
+</body>
+</html>

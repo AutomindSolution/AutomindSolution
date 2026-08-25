@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:#FAFAF7}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:#D6402C}
+  ::selection{background:#D6402C;color:#FAFAF7}
+</style>
+</helmet>
+<div style="background:#FAFAF7;color:#141414;font-family:Inter,system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;">
+
+  <dc-import name="Header" active="contato" whatsapp-number="{{ waNum }}" hint-size="100%,62px"></dc-import>
+
+  <section style="border-bottom:2px solid #141414;">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(20px,4vw,40px) clamp(44px,5vw,64px);">
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:18px;">
+        <span style="width:28px;height:2px;background:#D6402C;display:block;"></span>
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#D6402C;">Contato</span>
+      </div>
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:clamp(34px,5vw,58px);line-height:1.02;letter-spacing:-.03em;max-width:820px;margin-bottom:20px;">Vamos conversar? É direto no WhatsApp.</h1>
+      <p style="font-size:clamp(17px,1.7vw,19px);color:#5A5A54;max-width:600px;">Sem formulário chato e sem robô de triagem. Você manda uma mensagem e fala com um sócio, com resposta no mesmo dia.</p>
+    </div>
+  </section>
+
+  <section style="border-bottom:2px solid #141414;">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(40px,5vw,64px) clamp(20px,4vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
+      <div style="background:#141414;color:#FAFAF7;padding:clamp(32px,4vw,52px);display:flex;flex-direction:column;">
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#9A9A92;margin-bottom:20px;">Canal principal</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:clamp(26px,3vw,36px);letter-spacing:-.025em;margin-bottom:14px;">WhatsApp</h2>
+        <p style="font-size:16px;color:#C8C8C0;margin-bottom:32px;max-width:360px;">O jeito mais rápido de começar. Conta o gargalo do seu negócio e a gente responde com um primeiro caminho.</p>
+        <a href="{{ wa }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:11px;background:#D6402C;color:#FAFAF7;font-weight:600;font-size:16.5px;padding:17px 28px;align-self:flex-start;margin-top:auto;" style-hover="background:#B23520;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#FAFAF7"><path d="M12 2a10 10 0 00-8.5 15.2L2 22l4.9-1.4A10 10 0 1012 2zm4.4 12c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.1-.2 0-.4.1-.5l.4-.5c.1-.2.1-.3 0-.5L9 6.8c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3a3 3 0 00-.9 2.2c0 1.3 1 2.6 1.1 2.8 0 .2 1.8 2.9 4.5 4 .6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.4-.6 1.6-1.2.2-.6.2-1 .1-1.2 0-.1-.2-.2-.4-.3z"/></svg>
+          Abrir conversa no WhatsApp
+        </a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <div style="border:2px solid #141414;padding:26px 28px;">
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#8A8A82;">Email</span>
+          <a href="mailto:contato@automindsolution.com.br" style="display:block;font-size:17px;font-weight:500;color:#141414;margin-top:6px;" style-hover="color:#D6402C;">contato@automindsolution.com.br</a>
+        </div>
+        <div style="border:2px solid #141414;border-top:none;padding:26px 28px;">
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#8A8A82;">Atendimento</span>
+          <p style="font-size:17px;font-weight:500;color:#141414;margin-top:6px;">Segunda a sexta, 9h às 18h</p>
+        </div>
+        <div style="border:2px solid #141414;border-top:none;padding:26px 28px;">
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#8A8A82;">Onde estamos</span>
+          <p style="font-size:17px;font-weight:500;color:#141414;margin-top:6px;">Rio de Janeiro · RJ · atendemos todo o Brasil</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="border-bottom:2px solid #141414;">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(48px,6vw,80px) clamp(20px,4vw,40px);">
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:clamp(24px,3vw,34px);letter-spacing:-.025em;margin-bottom:clamp(28px,4vw,44px);max-width:560px;">Como funciona a primeira conversa.</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border-top:2px solid #141414;">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+          <div style="padding:clamp(26px,3vw,36px) clamp(22px,2.5vw,30px);border-right:1px solid #E4E1D8;border-bottom:1px solid #E4E1D8;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:500;color:#D6402C;margin-bottom:16px;">{{ s.num }}</div>
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;letter-spacing:-.01em;margin-bottom:9px;">{{ s.t }}</h3>
+            <p style="font-size:14.5px;color:#8A8A82;">{{ s.d }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="Footer" whatsapp-number="{{ waNum }}" hint-size="100%,400px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;whatsappNumber&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;5521999789428&quot;, &quot;tsType&quot;: &quot;string&quot;}
+}">
+class Component extends DCLogic {
+  renderVals() {
+    const num = String(this.props.whatsappNumber || '5521999789428').replace(/\D/g, '');
+    const wa = 'https://wa.me/' + num + '?text=' + encodeURIComponent('Olá! Vim pelo site da Automind e quero automatizar meu atendimento.');
+    return {
+      waNum: num, wa,
+      steps: [
+        { num: '01', t: 'Você manda', d: 'Conta em uma mensagem o que trava no seu atendimento hoje.' },
+        { num: '02', t: 'A gente responde', d: 'Ainda no mesmo dia, com um primeiro caminho e as perguntas certas.' },
+        { num: '03', t: 'Desenhamos juntos', d: 'Se fizer sentido, montamos o escopo e o prazo sem compromisso.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

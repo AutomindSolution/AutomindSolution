@@ -1,8 +1,39 @@
 {
+  "functions": {
+    "api/admin.js": {
+      "includeFiles": "private/admin.html"
+    }
+  },
+  "redirects": [
+    {
+      "source": "/Admin.dc.html",
+      "destination": "/admin",
+      "permanent": false
+    },
+    {
+      "source": "/design_handoff_admin_crm/Admin.dc.html",
+      "destination": "/admin",
+      "permanent": false
+    },
+    {
+      "source": "/refazer-do-zero/design/Admin.dc.html",
+      "destination": "/admin",
+      "permanent": false
+    },
+    {
+      "source": "/private/:path*",
+      "destination": "/admin",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/admin",
-      "destination": "/Admin.dc.html"
+      "destination": "/api/admin"
+    },
+    {
+      "source": "/admin/",
+      "destination": "/api/admin"
     }
   ]
 }

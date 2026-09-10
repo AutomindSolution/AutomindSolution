@@ -47,3 +47,13 @@ test('successful callback verifies user before creating session',async()=>{
  let calls=0;global.fetch=async(url,opts)=>{calls++;if(url.includes('/token?')){assert.equal(JSON.parse(opts.body).code_verifier,'a'.repeat(64));return Response.json({access_token:'verified-token',expires_in:3600});}return Response.json(allowed);};
  const r=await run('/api/admin?action=callback&code=valid-code','GET',{cookie:'__Host-automind-pkce='+ 'a'.repeat(64)});assert.equal(calls,2);assert.equal(r.headers.Location,'/admin');assert.match(r.headers['Set-Cookie'][1],/__Host-automind-session=verified-token/);
 });
+
+test('login page preserves same-origin POST origin without cross-origin referrers',async()=>{
+ const r=await run('/admin');assert.equal(r.headers['Referrer-Policy'],'same-origin');
+});
+test('login still rejects null, missing, and foreign origins',async()=>{
+ global.fetch=()=>{throw new Error('unexpected remote request');};
+ for(const origin of [undefined,'null','https://evil.test']){
+ const r=await run('/api/admin?action=login','POST',origin === undefined ? {} : {origin});assert.equal(r.statusCode,403);
+ }
+});

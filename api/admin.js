@@ -52,7 +52,8 @@ module.exports = async function handler(req, res) {
   res.setHeader('Vary', 'Cookie');
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('Referrer-Policy', 'no-referrer');
+  // Preserve Origin on same-origin form POSTs; omit referrers to other sites.
+  res.setHeader('Referrer-Policy', 'same-origin');
   res.setHeader('X-Robots-Tag', 'noindex, nofollow');
   const url = new URL(req.url, ORIGIN);
   const action = url.searchParams.get('action') || 'panel';
